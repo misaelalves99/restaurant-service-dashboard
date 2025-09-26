@@ -1,18 +1,39 @@
 // restaurant-service-dashboard/src/components/orders/OrderDetail.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Order } from "../../types/order";
 import { Customer } from "../../types/customer";
 import { MenuItem } from "../../types/menu";
+import { fetchMenu } from "../../api/menu";
 import styles from "./OrderDetail.module.css";
 
 interface Props {
   order: Order;
-  customers?: Customer[]; // Para mostrar nome do cliente
-  menuItems?: MenuItem[]; // Para mostrar nome e preço do item
+  customers?: Customer[];   // Para mostrar nome do cliente
+  menuItems?: MenuItem[];   // Para mostrar nome e preço do item
 }
 
-export const OrderDetail: React.FC<Props> = ({ order, customers = [], menuItems = [] }) => {
+export const OrderDetail: React.FC<Props> = ({ order, customers = [], menuItems: initialMenuItems = [] }) => {
+  const [menuItems, setMenuItems] = useState<MenuItem[]>(initialMenuItems);
+
+  useEffect(() => {
+    if (initialMenuItems.length === 0) {
+      // Carrega menu se não foi passado como prop
+      const loadMenu = async () => {
+        const data = await fetchMenu();
+        setMenuItems(data);
+      };
+      loadMenu();
+    }
+  }, [initialMenuItems]);
+
   const customer = customers.find(c => c.id === order.customerId);
+
+  const calculateItemTotal = (item: Order["items"][number]) => {
+    const menu = menuItems.find(m => m.id === item.menuItemId);
+    return menu ? menu.price * (item.quantity || 1) : 0;
+  };
+
+  const total = order.items?.reduce((sum, item) => sum + calculateItemTotal(item), 0) ?? 0;
 
   return (
     <div className={styles.container}>
@@ -28,29 +49,35 @@ export const OrderDetail: React.FC<Props> = ({ order, customers = [], menuItems 
         {order.items && order.items.length > 0 ? (
           <ul className={styles.itemsList}>
             {order.items.map((item, index) => {
-              const menu = menuItems.find(m => m.id === item.menuItemId);
+              const menu = menuItems.find((m) => m.id === item.menuItemId);
+              const itemName = menu ? menu.name : item.menuItemId; // fallback para ID
+              const itemPrice = menu ? menu.price : 0;
+              const itemTotal = itemPrice * (item.quantity || 1);
+
               return (
                 <li key={index} className={styles.item}>
-                  <span className={styles.itemName}>{menu ? menu.name : item.menuItemId}</span>
-                  <span className={styles.itemQty}>x{item.quantity}</span>
-                  <span className={styles.itemPrice}>${menu ? (menu.price * item.quantity).toFixed(2) : "0.00"}</span>
+                  <span className={styles.itemName}>{itemName}</span>
+                  <span className={styles.itemQty}>x{item.quantity || 1}</span>
+                  <span className={styles.itemPrice}>${itemTotal.toFixed(2)}</span>
                 </li>
               );
             })}
           </ul>
-        ) : <p>No items added</p>}
+        ) : (
+          <p>No items added</p>
+        )}
       </div>
 
       <div className={styles.section}>
         <h4>Status</h4>
         <span className={`${styles.status} ${styles[order.status || "pending"]}`}>
-          {order.status?.toUpperCase()}
+          {order.status?.toUpperCase() || "PENDING"}
         </span>
       </div>
 
       <div className={styles.section}>
         <h4>Total</h4>
-        <p className={styles.total}>${order.total.toFixed(2)}</p>
+        <p className={styles.total}>${total.toFixed(2)}</p>
       </div>
 
       <div className={styles.section}>
