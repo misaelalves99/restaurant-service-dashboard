@@ -1,20 +1,29 @@
+/* restaurant-service-dashboard/src/components/ui/Toast.module.css */
 .toast {
   position: fixed;
-  top: 20px;
+  bottom: 20px;
   right: 20px;
-  background: #4caf50; /* verde sucesso */
-  color: white;
   padding: 12px 20px;
   border-radius: 8px;
+  color: white;
   font-weight: bold;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
   z-index: 1000;
-  animation: fadeInOut 2s ease forwards;
+  animation: fadein 0.3s;
 }
 
-@keyframes fadeInOut {
-  0% { opacity: 0; transform: translateY(-20px); }
-  10% { opacity: 1; transform: translateY(0); }
-  90% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-20px); }
+.success { background-color: #4caf50; }
+.error { background-color: #f44336; }
+
+.toast button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
+
+@keyframes fadein { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

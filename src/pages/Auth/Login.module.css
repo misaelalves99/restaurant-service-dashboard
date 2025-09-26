@@ -1,37 +1,175 @@
 /* restaurant-service-dashboard/src/pages/Auth/Login.module.css */
-.container {
-    max-width: 400px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    text-align: center;
-}
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-input {
-    padding: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-button {
-    padding: 0.5rem;
-    background-color: #2c3e50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-button:hover {
-    background-color: #34495e;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #fafafa;
+  font-family: "Poppins", sans-serif;
 }
 
-.success {
-  margin-top: 10px;
-  color: green;
-  font-weight: bold;
+.logo {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #2d89ff;
+}
+
+.container {
+  width: 100%;
+  max-width: 380px;
+  padding: 30px;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #2d89ff;
+}
+
+button {
+  padding: 12px;
+  border-radius: 6px;
+  background-color: #2d89ff;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:disabled {
+  background-color: #9bbcff;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #1766d6;
+}
+
+.error {
+  color: #f44336;
+  font-size: 14px;
+}
+
+.links {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.links a {
+  color: #2d89ff;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  margin: 20px 0;
+  font-size: 14px;
+  color: #666;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 35%;
+  height: 1px;
+  background: #ccc;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.socialButtons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* Botões de login social circulares */
+.iconButton {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #fff;
+}
+
+.google {
+  background: #db4437;
+}
+
+.google:hover {
+  background: #c23321;
+}
+
+.facebook {
+  background: #1877f2;
+}
+
+.facebook:hover {
+  background: #0f5cc0;
+}
+
+.forgotPassword {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.forgotPassword a {
+  font-size: 13px;
+  color: #2d89ff;
+  text-decoration: none;
+}
+
+.forgotPassword a:hover {
+  text-decoration: underline;
 }
