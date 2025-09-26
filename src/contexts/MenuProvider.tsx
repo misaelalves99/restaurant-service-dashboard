@@ -1,37 +1,85 @@
 // src/contexts/MenuProvider.tsx
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { MenuItem } from "../types/menu";
+import { fetchMenu, createMenuItem, updateMenuItem, deleteMenuItem } from "../api/menu";
 
 interface MenuContextType {
   menu: MenuItem[];
   loading: boolean;
+  loadMenu: () => Promise<void>;
   addMenuItem: (item: Omit<MenuItem, "id">) => Promise<void>;
-  removeMenuItem: (id: string) => void;
+  editMenuItem: (id: string, updates: Partial<MenuItem>) => Promise<void>;
+  removeMenuItem: (id: string) => Promise<void>;
 }
 
 const MenuContext = createContext<MenuContextType | undefined>(undefined);
 
 export const MenuProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [menu, setMenu] = useState<MenuItem[]>([
-    { id: "1", name: "Pizza Margherita", price: 25 },
-    { id: "2", name: "Hamburger", price: 18 },
-    { id: "3", name: "Pasta Carbonara", price: 30 },
-  ]);
+  const [menu, setMenu] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const loadMenu = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchMenu();
+      setMenu(data);
+    } catch (err) {
+      console.error("Erro ao carregar menu:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const addMenuItem = async (item: Omit<MenuItem, "id">) => {
     setLoading(true);
-    await new Promise((res) => setTimeout(res, 500)); // simula delay
-    setMenu((prev) => [...prev, { ...item, id: Date.now().toString() }]);
-    setLoading(false);
+    try {
+      const newItem = await createMenuItem(item);
+      setMenu((prev) => [...prev, newItem]);
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao adicionar item");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const removeMenuItem = (id: string) => {
-    setMenu((prev) => prev.filter((m) => m.id !== id));
+  const editMenuItem = async (id: string, updates: Partial<MenuItem>) => {
+    setLoading(true);
+    try {
+      const updated = await updateMenuItem(id, updates);
+      if (updated) {
+        setMenu((prev) => prev.map((m) => (m.id === id ? updated : m)));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao atualizar item");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const removeMenuItem = async (id: string) => {
+    setLoading(true);
+    try {
+      const success = await deleteMenuItem(id);
+      if (success) {
+        setMenu((prev) => prev.filter((m) => m.id !== id));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao remover item");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Carrega o menu ao montar o provider
+  useEffect(() => {
+    loadMenu();
+  }, []);
 
   return (
-    <MenuContext.Provider value={{ menu, loading, addMenuItem, removeMenuItem }}>
+    <MenuContext.Provider value={{ menu, loading, loadMenu, addMenuItem, editMenuItem, removeMenuItem }}>
       {children}
     </MenuContext.Provider>
   );
@@ -39,6 +87,6 @@ export const MenuProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 export const useMenuContext = () => {
   const context = useContext(MenuContext);
-  if (!context) throw new Error("useMenuContext must be used within MenuProvider");
+  if (!context) throw new Error("useMenuContext must be used within a MenuProvider");
   return context;
 };

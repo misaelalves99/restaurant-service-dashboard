@@ -1,15 +1,27 @@
+/* src/components/customers/CustomerForm.module.css */
+
 .form {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .form input {
   flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff; /* fundo branco elegante */
+  color: #333;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form input:focus {
+  border-color: #0070f3;
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.4);
+  outline: none;
 }
 
 .form button {
@@ -17,10 +29,57 @@
   color: white;
   border: none;
   padding: 0.6rem 1.2rem;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .form button:hover {
   background: #0059c1;
+  transform: translateY(-1px);
+}
+
+/* Pequenas melhorias para a lista de clientes */
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #eee;
+  border-radius: 6px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: #f5f5f5;
+}
+
+.item span {
+  color: #333;
+}
+
+button.edit {
+  background: #1976d2;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+button.edit:hover {
+  background: #125ea2;
+}
+
+button.delete {
+  background: #d32f2f;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+button.delete:hover {
+  background: #a62323;
 }

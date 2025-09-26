@@ -1,6 +1,7 @@
-// src/components/menu/MenuItemForm.tsx
+// restaurant-service-dashboard/src/components/menu/MenuItemForm.tsx
 import React, { useState } from "react";
 import { useMenuContext } from "../../contexts/MenuProvider";
+import { FaPlus } from "react-icons/fa";
 import styles from "./MenuItemForm.module.css";
 
 export const MenuItemForm: React.FC = () => {
@@ -33,7 +34,9 @@ export const MenuItemForm: React.FC = () => {
         onChange={(e) => setPrice(Number(e.target.value))}
         required
       />
-      <button type="submit">➕ Add Item</button>
+      <button type="submit" className={styles.addButton}>
+        <FaPlus /> Adicionar
+      </button>
     </form>
   );
 };
