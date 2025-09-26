@@ -1,25 +1,111 @@
 /* restaurant-service-dashboard/src/pages/Dashboard/Orders.module.css */
 
 .container {
+  padding: 2rem;
   background: #fff;
-  padding: 1rem;
-  border-radius: 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: 'Poppins', sans-serif;
 }
 
-.list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.controls {
+  margin-bottom: 1rem;
 }
 
-.item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 0;
+.controls input {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
   border-bottom: 1px solid #eee;
 }
 
-.pending { color: orange; font-weight: bold; }
-.completed { color: green; font-weight: bold; }
-.cancelled { color: red; font-weight: bold; }
+.detailsBtn, .editBtn, .removeBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.pending { color: #f0ad4e; }
+.completed { color: #5cb85c; }
+.cancelled { color: #d9534f; }
+
+/* Drawer e Modal */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+}
+.drawer {
+  background: #fff;
+  width: 400px;
+  padding: 1.5rem;
+  border-radius: 12px 0 0 12px;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+  position: relative;
+}
+.closeBtn {
+  position: absolute;
+  top: 10px; right: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* Modal central */
+.modalOverlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+}
+.modal .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.cancelBtn {
+  background: #ccc;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.saveBtn {
+  background: #5cb85c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
