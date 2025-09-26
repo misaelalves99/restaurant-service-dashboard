@@ -1,0 +1,10 @@
+/* restaurant-service-dashboard/src/components/orders/OrderDetail.module.css */
+.container {
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+p {
+    margin: 0.25rem 0;
+}

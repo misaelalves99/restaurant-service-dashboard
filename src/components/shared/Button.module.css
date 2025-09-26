@@ -1,0 +1,12 @@
+/* restaurant-service-dashboard/src/components/shared/Button.module.css */
+.button {
+    padding: 0.5rem 1rem;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.button:hover {
+    background-color: #34495e;
+}

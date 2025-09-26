@@ -1,0 +1,7 @@
+/* restaurant-service-dashboard/src/components/dashboard/Header.module.css */
+.header {
+    background-color: #34495e;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}

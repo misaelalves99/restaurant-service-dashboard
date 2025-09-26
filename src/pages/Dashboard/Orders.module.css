@@ -1,0 +1,25 @@
+/* restaurant-service-dashboard/src/pages/Dashboard/Orders.module.css */
+
+.container {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.pending { color: orange; font-weight: bold; }
+.completed { color: green; font-weight: bold; }
+.cancelled { color: red; font-weight: bold; }

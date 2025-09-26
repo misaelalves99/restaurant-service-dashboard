@@ -1,0 +1,8 @@
+/* restaurant-service-dashboard/src/pages/Dashboard/index.module.css */
+.dashboard {
+    display: flex;
+}
+.main {
+    flex: 1;
+    padding: 1rem;
+}

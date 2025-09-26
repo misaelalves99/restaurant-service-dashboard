@@ -1,0 +1,27 @@
+/* Sidebar.module.css */
+.sidebar {
+  width: 200px;
+  background-color: #2d2d2d;
+  color: white;
+  padding: 20px;
+  height: 100vh;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 15px 0;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.sidebar a.active {
+  color: #ffd700;
+}

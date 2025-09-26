@@ -1,0 +1,10 @@
+/* restaurant-service-dashboard/src/components/orders/OrderList.module.css */
+/* OrderList.module.css */
+.container { padding: 1rem; background: #f9f9f9; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+ul { list-style: none; padding: 0; }
+li { display: flex; justify-content: space-between; padding: 0.5rem; border-bottom: 1px solid #ddd; }
+li button { background: #d32f2f; color: white; border: none; border-radius: 6px; cursor: pointer; }
+li button:hover { background: #a02828; }
+
+/* OrderDetail.module.css */
+.container { padding: 1rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 1rem; }
