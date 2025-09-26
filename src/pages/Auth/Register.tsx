@@ -1,8 +1,9 @@
 // restaurant-service-dashboard/src/pages/Auth/Register.tsx
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Toast } from "../../components/ui/Toast";
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 import styles from "./Register.module.css";
 
 export const Register: React.FC = () => {
@@ -19,9 +20,10 @@ export const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!name || !email || !password) return setError("⚠️ Todos os campos são obrigatórios");
-    setLoading(true);
+    if (!name || !email || !password)
+      return setError("⚠️ Todos os campos são obrigatórios");
 
+    setLoading(true);
     try {
       await register(name, email, password);
       setToast("✅ Cadastro criado com sucesso!");
@@ -34,17 +36,57 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value)} required />
-        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
-        <button type="submit" disabled={loading}>
-          {loading ? "Registering..." : "Register"}
-        </button>
-        {error && <p className={styles.error}>{error}</p>}
-      </form>
+    <div className={styles.page}>
+      <div className={styles.logo}>🍽️ Restaurant Dashboard</div>
+
+      <div className={styles.container}>
+        <h2>Criar Conta</h2>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <input
+            type="text"
+            placeholder="Nome completo"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Seu e-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Crie uma senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Cadastrando..." : "Cadastrar"}
+          </button>
+
+          {error && <p className={styles.error}>{error}</p>}
+        </form>
+
+        <div className={styles.links}>
+          <p>
+            Já tem conta? <Link to="/auth/login">Entre aqui</Link>
+          </p>
+        </div>
+
+        <div className={styles.divider}>Ou cadastre-se com</div>
+        <div className={styles.socialButtons}>
+          <button className={`${styles.iconButton} ${styles.google}`}>
+            <FaGoogle />
+          </button>
+          <button className={`${styles.iconButton} ${styles.facebook}`}>
+            <FaFacebook />
+          </button>
+        </div>
+      </div>
 
       {toast && <Toast message={toast} onClose={() => setToast("")} />}
     </div>

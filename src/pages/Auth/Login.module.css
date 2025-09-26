@@ -6,98 +6,137 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #fafafa;
+  background: linear-gradient(135deg, #141414, #1f1f1f);
   font-family: "Poppins", sans-serif;
+  color: #fff;
+  padding: 20px;
 }
 
 .logo {
-  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 2.2rem;
   font-weight: 600;
-  margin-bottom: 20px;
-  color: #2d89ff;
+  margin-bottom: 25px;
+  color: #ffcc00;
+  text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1px;
+  animation: fadeIn 0.6s ease;
+}
+
+.logo .icon {
+  font-size: 2.4rem;
 }
 
 .container {
   width: 100%;
-  max-width: 380px;
-  padding: 30px;
-  border-radius: 12px;
-  background-color: #fff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  padding: 32px;
+  border-radius: 14px;
+  background: #1e1e1e;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.45);
   text-align: center;
+  animation: fadeIn 0.6s ease;
 }
 
 h2 {
-  margin-bottom: 20px;
-  font-size: 1.6rem;
-  color: #333;
+  margin-bottom: 22px;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #fff;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
 }
 
 input {
   padding: 12px;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid #444;
   font-size: 15px;
+  background: #2c2c2c;
+  color: #fff;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.25s ease;
 }
 
 input:focus {
-  border-color: #2d89ff;
+  border-color: #ffcc00;
+  background: #333;
+  box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.2);
+}
+
+.forgotPassword {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.forgotPassword a {
+  font-size: 13px;
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.forgotPassword a:hover {
+  color: #ffcc00;
 }
 
 button {
   padding: 12px;
   border-radius: 6px;
-  background-color: #2d89ff;
-  color: white;
+  background-color: #ffcc00;
+  color: #1a1a1a;
   border: none;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
 }
 
 button:disabled {
-  background-color: #9bbcff;
+  background-color: #e6b80080;
   cursor: not-allowed;
 }
 
 button:hover:not(:disabled) {
-  background-color: #1766d6;
+  background-color: #e6b800;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 204, 0, 0.3);
 }
 
 .error {
   color: #f44336;
   font-size: 14px;
+  margin-top: -8px;
 }
 
 .links {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  margin-top: 18px;
+  font-size: 14px;
 }
 
 .links a {
-  color: #2d89ff;
-  font-size: 14px;
+  color: #ffcc00;
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 .links a:hover {
   text-decoration: underline;
+  color: #ffe680;
 }
 
 .divider {
-  margin: 20px 0;
+  margin: 22px 0;
   font-size: 14px;
-  color: #666;
+  color: #aaa;
   position: relative;
 }
 
@@ -106,9 +145,9 @@ button:hover:not(:disabled) {
   content: "";
   position: absolute;
   top: 50%;
-  width: 35%;
+  width: 34%;
   height: 1px;
-  background: #ccc;
+  background: #444;
 }
 
 .divider::before {
@@ -122,14 +161,13 @@ button:hover:not(:disabled) {
 .socialButtons {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 18px;
+  margin-top: 12px;
 }
 
-/* Botões de login social circulares */
 .iconButton {
-  width: 45px;
-  height: 45px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   border: none;
   display: flex;
@@ -137,8 +175,13 @@ button:hover:not(:disabled) {
   justify-content: center;
   font-size: 20px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
   color: #fff;
+}
+
+.iconButton:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
 }
 
 .google {
@@ -157,19 +200,14 @@ button:hover:not(:disabled) {
   background: #0f5cc0;
 }
 
-.forgotPassword {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: -5px;
-  margin-bottom: 10px;
-}
-
-.forgotPassword a {
-  font-size: 13px;
-  color: #2d89ff;
-  text-decoration: none;
-}
-
-.forgotPassword a:hover {
-  text-decoration: underline;
+/* Animação suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

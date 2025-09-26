@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate, Link } from "react-router-dom";
 import { Toast } from "../../components/ui/Toast";
-import { FaGoogle, FaFacebookF } from "react-icons/fa";
+import { FaGoogle, FaFacebookF, FaUtensils } from "react-icons/fa";
 import styles from "./Login.module.css";
 
 export const Login: React.FC = () => {
@@ -35,8 +35,10 @@ export const Login: React.FC = () => {
 
   return (
     <div className={styles.page}>
-      {/* Logo / Marca do sistema */}
-      <h1 className={styles.logo}>🍴 Restaurant Dashboard</h1>
+      {/* Logo / Marca */}
+      <h1 className={styles.logo}>
+        <FaUtensils className={styles.icon} /> Restaurant Service
+      </h1>
 
       <div className={styles.container}>
         <h2>Login</h2>
@@ -56,7 +58,7 @@ export const Login: React.FC = () => {
             required
           />
 
-          {/* alinhado no final do form */}
+          {/* Link para recuperação */}
           <div className={styles.forgotPassword}>
             <Link to="/auth/forgot-password">Esqueceu a senha?</Link>
           </div>
@@ -74,10 +76,10 @@ export const Login: React.FC = () => {
         <div className={styles.divider}>ou entre com</div>
 
         <div className={styles.socialButtons}>
-          <button className={styles.iconButton + " " + styles.google}>
+          <button className={`${styles.iconButton} ${styles.google}`}>
             <FaGoogle />
           </button>
-          <button className={styles.iconButton + " " + styles.facebook}>
+          <button className={`${styles.iconButton} ${styles.facebook}`}>
             <FaFacebookF />
           </button>
         </div>
