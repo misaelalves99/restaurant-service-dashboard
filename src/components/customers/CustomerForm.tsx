@@ -1,10 +1,14 @@
 // restaurant-service-dashboard/src/components/customers/CustomerForm.tsx
+
 import React, { useState } from "react";
-import { useCustomers } from "../../hooks/useCustomers";
+import { Customer } from "../../types/customer";
 import styles from "./CustomerForm.module.css";
 
-export const CustomerForm: React.FC = () => {
-  const { addCustomer } = useCustomers();
+interface Props {
+  onAdd: (customer: Omit<Customer, "id" | "createdAt">) => void;
+}
+
+export const CustomerForm: React.FC<Props> = ({ onAdd }) => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -13,7 +17,7 @@ export const CustomerForm: React.FC = () => {
       alert("Name and email are required!");
       return;
     }
-    addCustomer(form);
+    onAdd(form);
     setForm({ name: "", email: "", phone: "", address: "" });
   };
 

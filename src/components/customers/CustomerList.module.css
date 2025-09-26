@@ -20,6 +20,13 @@
   align-items: center;
   padding: 0.8rem 1rem;
   border-bottom: 1px solid #eee;
+  border-radius: 6px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: #f5f5f5;
 }
 
 .actions {
@@ -41,6 +48,20 @@
   background: #005bb5;
 }
 
+.editBtn {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.editBtn:hover {
+  background: #125ea2;
+}
+
 .removeBtn {
   background: #d32f2f;
   color: white;
@@ -55,7 +76,7 @@
   background: #a62323;
 }
 
-/* Overlay que escurece o fundo */
+/* Overlay escurecido */
 .overlay {
   position: fixed;
   top: 0;
@@ -64,7 +85,7 @@
   height: 100%;
   background: rgba(0,0,0,0.5);
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-end; /* drawer lateral */
   z-index: 1000;
 }
 
@@ -97,4 +118,78 @@
   top: 10px;
   right: 10px;
   cursor: pointer;
+}
+
+/* Modal central (edição ou delete) */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal h3,
+.modal h2 {
+  margin-bottom: 1rem;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cancelBtn {
+  background: #ddd;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.cancelBtn:hover {
+  background: #bbb;
+}
+
+.confirmDeleteBtn {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.confirmDeleteBtn:hover {
+  background: #a62323;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

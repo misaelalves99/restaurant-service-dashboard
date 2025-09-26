@@ -7,14 +7,18 @@ import { CustomerForm } from "./CustomerForm";
 import { CustomerEditForm } from "./CustomerEditForm";
 import { Customer } from "../../types/customer";
 
+// React Icons
+import { FiEye, FiEdit, FiTrash2, FiX } from "react-icons/fi";
+
 import styles from "./CustomerList.module.css";
 
 export const CustomerList: React.FC = () => {
-  const { customers, loading, loadCustomers, removeCustomer, editCustomer } =
+  const { customers, loading, loadCustomers, editCustomer, removeCustomer, addCustomer } =
     useCustomers();
 
   const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [deleteMode, setDeleteMode] = useState<boolean>(false);
 
   useEffect(() => {
     loadCustomers();
@@ -22,17 +26,28 @@ export const CustomerList: React.FC = () => {
 
   const customer = customers.find((c) => c.id === selectedCustomer) || null;
 
+  // Salvar edição
   const handleSave = async (updatedCustomer: Customer) => {
     await editCustomer(updatedCustomer.id, updatedCustomer);
     setSelectedCustomer(null);
     setEditMode(false);
   };
 
+  // Confirmar exclusão
+  const handleDelete = async () => {
+    if (selectedCustomer) {
+      await removeCustomer(selectedCustomer);
+      setSelectedCustomer(null);
+      setDeleteMode(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h2>👥 Customer Management</h2>
 
-      <CustomerForm />
+      {/* Passa addCustomer para o CustomerForm */}
+      <CustomerForm onAdd={addCustomer} />
 
       {loading ? (
         <p>Loading...</p>
@@ -47,25 +62,31 @@ export const CustomerList: React.FC = () => {
                   onClick={() => {
                     setSelectedCustomer(customer.id);
                     setEditMode(false);
+                    setDeleteMode(false);
                   }}
                   className={styles.detailsBtn}
                 >
-                  🔍 Details
+                  <FiEye />
                 </button>
                 <button
                   onClick={() => {
                     setSelectedCustomer(customer.id);
                     setEditMode(true);
+                    setDeleteMode(false);
                   }}
                   className={styles.editBtn}
                 >
-                  ✏️ Edit
+                  <FiEdit />
                 </button>
                 <button
-                  onClick={() => removeCustomer(customer.id)}
+                  onClick={() => {
+                    setSelectedCustomer(customer.id);
+                    setDeleteMode(true);
+                    setEditMode(false);
+                  }}
                   className={styles.removeBtn}
                 >
-                  ❌ Remove
+                  <FiTrash2 />
                 </button>
               </div>
             </li>
@@ -74,20 +95,11 @@ export const CustomerList: React.FC = () => {
       )}
 
       {/* Drawer lateral para detalhes */}
-      {selectedCustomer && customer && !editMode && (
-        <div
-          className={styles.overlay}
-          onClick={() => setSelectedCustomer(null)}
-        >
-          <div
-            className={styles.drawer}
-            onClick={(e) => e.stopPropagation()} // evita fechar ao clicar dentro
-          >
-            <button
-              className={styles.closeBtn}
-              onClick={() => setSelectedCustomer(null)}
-            >
-              ✖
+      {selectedCustomer && customer && !editMode && !deleteMode && (
+        <div className={styles.overlay} onClick={() => setSelectedCustomer(null)}>
+          <div className={styles.drawer} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.closeBtn} onClick={() => setSelectedCustomer(null)}>
+              <FiX />
             </button>
             <CustomerDetail customer={customer} />
           </div>
@@ -101,6 +113,32 @@ export const CustomerList: React.FC = () => {
           onSave={handleSave}
           onCancel={() => setSelectedCustomer(null)}
         />
+      )}
+
+      {/* Modal central para confirmação de exclusão */}
+      {selectedCustomer && customer && deleteMode && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>⚠️ Confirm Deletion</h3>
+            <p>
+              Are you sure you want to delete <strong>{customer.name}</strong>?
+            </p>
+            <div className={styles.modalActions}>
+              <button
+                className={styles.cancelBtn}
+                onClick={() => {
+                  setSelectedCustomer(null);
+                  setDeleteMode(false);
+                }}
+              >
+                Cancel
+              </button>
+              <button className={styles.confirmDeleteBtn} onClick={handleDelete}>
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
