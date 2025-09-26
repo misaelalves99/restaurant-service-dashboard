@@ -1,10 +1,11 @@
 /* restaurant-service-dashboard/src/components/menu/MenuList.module.css */
 
+/* MenuList.module.css */
 .container {
   padding: 1.2rem;
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   font-family: 'Poppins', sans-serif;
   color: #333;
 }
@@ -14,6 +15,32 @@ h2 {
   font-weight: 600;
   margin-bottom: 1rem;
   color: #222;
+}
+
+.filter {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter label {
+  font-weight: 500;
+}
+
+.filter select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.filter select:focus {
+  border-color: #0070f3;
+  outline: none;
 }
 
 .list {
@@ -30,11 +57,20 @@ h2 {
   border-bottom: 1px solid #eee;
   border-radius: 6px;
   transition: background 0.2s;
-  cursor: pointer;
 }
 
 .item:hover {
   background: #f5f5f5;
+}
+
+.item div:first-child {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.category {
+  font-size: 12px;
+  color: #777;
 }
 
 .item span {

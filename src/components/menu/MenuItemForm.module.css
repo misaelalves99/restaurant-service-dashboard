@@ -7,38 +7,40 @@
   margin-bottom: 1.5rem;
 }
 
-.form input {
+.form input,
+.form select {
   flex: 1;
   padding: 0.6rem 0.8rem;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background: #fff; /* fundo elegante e claro */
+  background: #fff;
   color: #333;
   font-size: 14px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form input:focus {
+.form input:focus,
+.form select:focus {
   border-color: #0070f3;
   box-shadow: 0 0 5px rgba(0, 112, 243, 0.4);
   outline: none;
 }
 
-.addButton {
+.form button.addButton {
+  background: #0070f3;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0.55rem 1rem;
-  background-color: #0070f3;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  gap: 0.5rem;
+  transition: background 0.3s, transform 0.2s;
 }
 
-.addButton:hover {
-  background-color: #0059c1;
+.form button.addButton:hover {
+  background: #0059c1;
   transform: translateY(-1px);
 }
