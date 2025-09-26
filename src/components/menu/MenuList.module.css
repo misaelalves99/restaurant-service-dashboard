@@ -100,3 +100,38 @@ button:hover {
 .delete:hover {
   background: #a62323;
 }
+
+.pagination {
+  margin: 1rem auto; /* centraliza horizontalmente */
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  width: fit-content; /* garante que o flexbox tenha apenas o tamanho necessário */
+}
+
+.pagination button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #000; /* cor preta para números não selecionados */
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.15s, color 0.2s;
+}
+
+.pagination button:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination .activePage {
+  background: #0070f3;
+  color: white; /* apenas o ativo fica branco */
+  border-color: #0070f3;
+}
