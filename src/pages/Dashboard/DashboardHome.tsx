@@ -2,16 +2,13 @@
 import React from 'react';
 import styles from './DashboardHome.module.css';
 import { FaUtensils, FaConciergeBell, FaCashRegister } from 'react-icons/fa';
+import { DashboardCarousel } from '../../components/dashboard/DashboardCarousel';
 
 export const DashboardHome: React.FC = () => {
     return (
         <div className={styles.container}>
             {/* Carousel de promoções/pratos do dia */}
-            <div className={styles.carousel}>
-                <div className={styles.slide}>🍕 Pizza do Dia - 20% OFF!</div>
-                <div className={styles.slide}>🥗 Salada Caesar - Frescor Garantido!</div>
-                <div className={styles.slide}>🍝 Massas Artesanais - Sabor Inigualável!</div>
-            </div>
+            <DashboardCarousel />
 
             {/* Indicadores rápidos */}
             <div className={styles.quickStats}>
