@@ -1,12 +1,11 @@
 // restaurant-service-dashboard/src/components/orders/OrderCreateForm.tsx
 
 import React, { useState, useEffect } from "react";
-import { Customer } from "../../types/customer";
 import { MenuItem } from "../../types/menu";
 import { Order } from "../../types/order";
 import { fetchMenu } from "../../api/menu";
-import { fetchCustomers } from "../../api/customers";
 import styles from "./OrderCreateForm.module.css";
+import { useCustomers } from "../../hooks/useCustomers";
 
 interface Props {
   onCreate: (order: Omit<Order, "id" | "createdAt">) => Promise<void>;
@@ -19,7 +18,7 @@ interface OrderItem {
 }
 
 export const OrderCreateForm: React.FC<Props> = ({ onCreate, onCancel }) => {
-  const [customers, setCustomers] = useState<Customer[]>([]);
+  const { customers } = useCustomers(); // ✅ lista global de clientes
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [selectedCustomerId, setSelectedCustomerId] = useState("");
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
@@ -28,16 +27,16 @@ export const OrderCreateForm: React.FC<Props> = ({ onCreate, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<string>("");
 
+  // Carrega menu do backend
   useEffect(() => {
-    const loadData = async () => {
-      const customersData = await fetchCustomers();
+    const loadMenu = async () => {
       const menuData = await fetchMenu();
-      setCustomers(customersData.data);
       setMenuItems(menuData);
     };
-    loadData();
+    loadMenu();
   }, []);
 
+  // Calcula total
   useEffect(() => {
     const sum = orderItems.reduce((acc, item) => {
       const menu = menuItems.find((m) => m.id === item.menuItemId);
@@ -65,11 +64,16 @@ export const OrderCreateForm: React.FC<Props> = ({ onCreate, onCancel }) => {
     setLoading(true);
 
     try {
-      await onCreate({ customerId: selectedCustomerId, total, status });
+      await onCreate({
+        customerId: selectedCustomerId,
+        total,
+        status,
+        items: orderItems
+      });
       setSelectedCustomerId("");
       setOrderItems([]);
       setStatus("pending");
-      if (onCancel) onCancel(); // Fecha modal ao criar
+      if (onCancel) onCancel();
     } catch (err: any) {
       setErrors(err.message || "Erro ao criar pedido.");
     } finally {
@@ -79,72 +83,89 @@ export const OrderCreateForm: React.FC<Props> = ({ onCreate, onCancel }) => {
 
   return (
     <div className={styles.modalOverlay} onClick={onCancel}>
-        <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        {/* Botão X para fechar */}
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         {onCancel && (
-            <button
+          <button
             className={styles.closeBtn}
             onClick={onCancel}
             type="button"
             aria-label="Close"
-            >
+          >
             ✕
-            </button>
+          </button>
         )}
 
         <form className={styles.form} onSubmit={handleSubmit}>
-            <h3>🆕 Create New Order</h3>
+          <h3>🆕 Create New Order</h3>
 
-            {errors && <p className={styles.error}>{errors}</p>}
+          {errors && <p className={styles.error}>{errors}</p>}
 
-            <div className={styles.field}>
+          <div className={styles.field}>
             <label>Customer</label>
             <select value={selectedCustomerId} onChange={(e) => setSelectedCustomerId(e.target.value)}>
-                <option value="">Select a customer</option>
-                {customers.map((c) => <option key={c.id} value={c.id}>{c.name} ({c.email})</option>)}
+              <option value="">Select a customer</option>
+              {customers.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name} ({c.email})
+                </option>
+              ))}
             </select>
-            </div>
+          </div>
 
-            <div className={styles.field}>
+          <div className={styles.field}>
             <label>Order Items</label>
             {orderItems.map((item, index) => (
-                <div key={index} className={styles.orderItem}>
-                <select value={item.menuItemId} onChange={(e) => handleItemChange(index, "menuItemId", e.target.value)}>
-                    <option value="">Select menu item</option>
-                    {menuItems.map((menu) => <option key={menu.id} value={menu.id}>{menu.name} (${menu.price})</option>)}
-                </select>
-                <input type="number" min={1} value={item.quantity} onChange={(e) => handleItemChange(index, "quantity", e.target.value)} />
-                <button
-                    type="button"
-                    className={styles.removeBtn}
-                    onClick={() => handleRemoveItem(index)}
-                    aria-label="Remove item"
+              <div key={index} className={styles.orderItem}>
+                <select
+                  value={item.menuItemId}
+                  onChange={(e) => handleItemChange(index, "menuItemId", e.target.value)}
                 >
-                    ✕
+                  <option value="">Select menu item</option>
+                  {menuItems.map((menu) => (
+                    <option key={menu.id} value={menu.id}>
+                      {menu.name} (${menu.price})
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="number"
+                  min={1}
+                  value={item.quantity}
+                  onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
+                />
+                <button
+                  type="button"
+                  className={styles.removeBtn}
+                  onClick={() => handleRemoveItem(index)}
+                  aria-label="Remove item"
+                >
+                  ✕
                 </button>
-                </div>
+              </div>
             ))}
-            <button type="button" className={styles.addBtn} onClick={handleAddItem}>+ Add Item</button>
-            </div>
+            <button type="button" className={styles.addBtn} onClick={handleAddItem}>
+              + Add Item
+            </button>
+          </div>
 
-            <div className={styles.field}>
+          <div className={styles.field}>
             <label>Status</label>
             <select value={status} onChange={(e) => setStatus(e.target.value as Order["status"])}>
-                <option value="pending">Pending</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
             </select>
-            </div>
+          </div>
 
-            <div className={styles.total}>
+          <div className={styles.total}>
             Total: <strong>${total.toFixed(2)}</strong>
-            </div>
+          </div>
 
-            <button type="submit" className={styles.saveBtn} disabled={loading}>
+          <button type="submit" className={styles.saveBtn} disabled={loading}>
             {loading ? "Saving..." : "Create Order"}
-            </button>
+          </button>
         </form>
-        </div>
+      </div>
     </div>
   );
 };

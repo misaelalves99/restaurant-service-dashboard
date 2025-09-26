@@ -2,23 +2,36 @@
 
 import React from "react";
 import { Order } from "../../types/order";
+import { Customer } from "../../types/customer";
 import styles from "./OrderTable.module.css";
 import { FiEye, FiEdit, FiTrash2 } from "react-icons/fi";
 
 interface Props {
   orders: Order[];
+  customers?: Customer[]; // nova prop
   onView: (order: Order) => void;
   onEdit: (order: Order) => void;
   onDelete: (id: string) => void;
 }
 
-export const OrderTable: React.FC<Props> = ({ orders, onView, onEdit, onDelete }) => {
+export const OrderTable: React.FC<Props> = ({
+  orders,
+  customers = [],
+  onView,
+  onEdit,
+  onDelete
+}) => {
+  const getCustomerName = (customerId: string) => {
+    const customer = customers.find(c => c.id === customerId);
+    return customer ? customer.name : customerId; // fallback para ID
+  };
+
   return (
     <table className={styles.table}>
       <thead>
         <tr>
           <th>Order #</th>
-          <th>Customer ID</th>
+          <th>Customer</th> {/* Nome do cliente */}
           <th>Total ($)</th>
           <th>Status</th>
           <th>Actions</th>
@@ -28,7 +41,7 @@ export const OrderTable: React.FC<Props> = ({ orders, onView, onEdit, onDelete }
         {orders.map((order) => (
           <tr key={order.id}>
             <td>{order.id}</td>
-            <td>{order.customerId}</td>
+            <td>{getCustomerName(order.customerId)}</td>
             <td>{order.total.toFixed(2)}</td>
             <td className={styles[order.status || "pending"]}>
               {order.status?.toUpperCase()}

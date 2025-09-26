@@ -13,8 +13,7 @@ import { FiEye, FiEdit, FiTrash2, FiX } from "react-icons/fi";
 import styles from "./CustomerList.module.css";
 
 export const CustomerList: React.FC = () => {
-  const { customers, loading, loadCustomers, editCustomer, removeCustomer, addCustomer } =
-    useCustomers();
+  const { customers, loading, loadCustomers, editCustomer, removeCustomer } = useCustomers();
 
   const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -46,8 +45,8 @@ export const CustomerList: React.FC = () => {
     <div className={styles.container}>
       <h2>👥 Customer Management</h2>
 
-      {/* Passa addCustomer para o CustomerForm */}
-      <CustomerForm onAdd={addCustomer} />
+      {/* Não precisa mais passar onAdd, CustomerForm pega do contexto */}
+      <CustomerForm />
 
       {loading ? (
         <p>Loading...</p>

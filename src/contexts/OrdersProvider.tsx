@@ -1,22 +1,79 @@
 // src/contexts/OrdersProvider.tsx
-import React, { ReactNode, useEffect, useContext } from "react";
-import { OrdersContext, OrdersContextType } from "./OrdersContext";
-import { useOrders } from "../hooks/useOrders";
+import React, { ReactNode, useEffect, useState } from "react";
+import { OrdersContext } from "./OrdersContext";
+import { Order } from "../types/order";
+import { fetchOrders, createOrder, updateOrder, deleteOrder } from "../api/orders";
 
 interface Props { children: ReactNode }
 
 export const OrdersProvider: React.FC<Props> = ({ children }) => {
-  const { orders, loading, loadOrders, addOrder, editOrder, removeOrder } = useOrders();
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => { loadOrders(); }, []);
+  // Carrega todos os pedidos (opcionalmente filtra por customerId)
+  const loadOrders = async (customerId?: string) => {
+    setLoading(true);
+    try {
+      const data = await fetchOrders(customerId);
+      setOrders(data);
+    } catch (err: any) {
+      console.error("Erro ao carregar pedidos:", err.message || err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const value: OrdersContextType = { orders, loading, loadOrders, addOrder, editOrder, removeOrder };
+  // Adiciona pedido
+  const addOrder = async (order: Omit<Order, "id" | "createdAt">) => {
+    setLoading(true);
+    try {
+      const newOrder = await createOrder(order);
+      setOrders(prev => [...prev, newOrder]);
+      return newOrder;
+    } catch (err: any) {
+      throw new Error(err.message || "Erro ao criar pedido");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  return <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>;
-};
+  // Edita pedido
+  const editOrder = async (id: string, updates: Partial<Order>) => {
+    setLoading(true);
+    try {
+      const updated = await updateOrder(id, updates);
+      if (!updated) throw new Error("Pedido não encontrado");
+      setOrders(prev => prev.map(o => o.id === id ? updated : o));
+    } catch (err: any) {
+      throw new Error(err.message || "Erro ao atualizar pedido");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-export const useOrdersContext = () => {
-  const context = useContext(OrdersContext);
-  if (!context) throw new Error("useOrdersContext must be used within OrdersProvider");
-  return context;
+  // Remove pedido
+  const removeOrder = async (id: string) => {
+    setLoading(true);
+    try {
+      const success = await deleteOrder(id);
+      if (!success) throw new Error("Pedido não encontrado");
+      setOrders(prev => prev.filter(o => o.id !== id));
+    } catch (err: any) {
+      throw new Error(err.message || "Erro ao remover pedido");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadOrders();
+  }, []);
+
+  return (
+    <OrdersContext.Provider
+      value={{ orders, loading, loadOrders, addOrder, editOrder, removeOrder }}
+    >
+      {children}
+    </OrdersContext.Provider>
+  );
 };

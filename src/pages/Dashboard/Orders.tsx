@@ -2,31 +2,39 @@
 
 import React, { useState, useEffect } from "react";
 import { useOrders } from "../../hooks/useOrders";
+import { useCustomers } from "../../hooks/useCustomers"; // Hook para buscar clientes
 import { Order } from "../../types/order";
 import { OrderDetail } from "../../components/orders/OrderDetail";
 import { OrderEditForm } from "../../components/orders/OrderEditForm";
 import { OrderTable } from "../../components/orders/OrderTable";
 import { OrderSearch } from "../../components/orders/OrderSearch";
-import { OrderCreateForm } from "../../components/orders/OrderCreateForm"; // Import do form
+import { OrderCreateForm } from "../../components/orders/OrderCreateForm";
 import styles from "./Orders.module.css";
 import { FiX, FiPlus } from "react-icons/fi";
 
 export const OrdersPage: React.FC = () => {
   const { orders, removeOrder, editOrder, addOrder, loadOrders } = useOrders();
+  const { customers, loadCustomers } = useCustomers(); // Hook customizado para carregar clientes
+
   const [search, setSearch] = useState("");
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [editMode, setEditMode] = useState(false);
-  const [createMode, setCreateMode] = useState(false); // Novo estado para criar pedido
+  const [createMode, setCreateMode] = useState(false);
 
-  const filteredOrders = orders.filter(
-    (o) =>
-      o.customerId.includes(search) ||
-      o.id.includes(search) ||
-      o.status?.includes(search.toLowerCase() || "")
-  );
+  // Filtragem por Order ID, Customer name ou Status
+  const filteredOrders = orders.filter((o) => {
+    const customer = customers.find((c) => c.id === o.customerId);
+    const customerName = customer ? customer.name.toLowerCase() : "";
+    return (
+      o.id.toLowerCase().includes(search.toLowerCase()) ||
+      customerName.includes(search.toLowerCase()) ||
+      o.status?.toLowerCase().includes(search.toLowerCase() || "")
+    );
+  });
 
   useEffect(() => {
     loadOrders();
+    loadCustomers();
   }, []);
 
   const handleSave = async (updatedOrder: Order) => {
@@ -52,10 +60,13 @@ export const OrdersPage: React.FC = () => {
         </button>
       </div>
 
-      <OrderSearch search={search} onChange={setSearch} />
+      <div className={styles.searchWrapper}>
+        <OrderSearch search={search} onChange={setSearch} />
+      </div>
 
       <OrderTable
         orders={filteredOrders}
+        customers={customers} // Passa lista de clientes para mostrar nomes
         onView={(order) => { setSelectedOrder(order); setEditMode(false); }}
         onEdit={(order) => { setSelectedOrder(order); setEditMode(true); }}
         onDelete={(id) => removeOrder(id)}
@@ -76,7 +87,10 @@ export const OrdersPage: React.FC = () => {
             <button className={styles.closeBtn} onClick={() => setSelectedOrder(null)}>
               <FiX />
             </button>
-            <OrderDetail order={selectedOrder} />
+            <OrderDetail
+              order={selectedOrder}
+              customers={customers} // Passa clientes para mostrar nome
+            />
           </div>
         </div>
       )}
@@ -85,6 +99,7 @@ export const OrdersPage: React.FC = () => {
       {selectedOrder && editMode && (
         <OrderEditForm
           order={selectedOrder}
+          customers={customers} // Também passa para o form de edição
           onSave={handleSave}
           onCancel={() => setSelectedOrder(null)}
         />

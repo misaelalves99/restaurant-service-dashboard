@@ -1,10 +1,85 @@
 /* restaurant-service-dashboard/src/components/orders/OrderDetail.module.css */
 .container {
-    padding: 1rem;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: 'Poppins', sans-serif;
 }
-p {
-    margin: 0.25rem 0;
+
+h3 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.section {
+  margin-bottom: 1rem;
+}
+
+.section h4 {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #555;
+  font-size: 1rem;
+}
+
+.itemsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.itemName {
+  flex: 2;
+  color: #333;
+}
+
+.itemQty {
+  flex: 1;
+  text-align: center;
+  color: #555;
+}
+
+.itemPrice {
+  flex: 1;
+  text-align: right;
+  font-weight: 500;
+  color: #333;
+}
+
+.status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #fff;
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+/* Status colors */
+.pending { background-color: #f0ad4e; }
+.completed { background-color: #28a745; }
+.cancelled { background-color: #d9534f; }
+
+.total {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #333;
 }

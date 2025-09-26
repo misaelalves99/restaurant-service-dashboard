@@ -82,13 +82,23 @@
   border: 1px solid #ccc;
   font-size: 1rem;
   text-align: center;
-  -moz-appearance: auto;
+
+  /* Standard and vendor-specific appearance */
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
+/* Remove the spin buttons in WebKit browsers */
 .field input::-webkit-outer-spin-button,
 .field input::-webkit-inner-spin-button {
-  -webkit-appearance: auto;
+  -webkit-appearance: none;
   margin: 0;
+}
+
+/* Remove spin buttons in Firefox */
+.field input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /* Itens do pedido */

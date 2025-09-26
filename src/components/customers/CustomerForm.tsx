@@ -1,24 +1,33 @@
 // restaurant-service-dashboard/src/components/customers/CustomerForm.tsx
 
 import React, { useState } from "react";
-import { Customer } from "../../types/customer";
 import styles from "./CustomerForm.module.css";
+import { useCustomersContext } from "../../contexts/CustomersContext";
 
-interface Props {
-  onAdd: (customer: Omit<Customer, "id" | "createdAt">) => void;
-}
-
-export const CustomerForm: React.FC<Props> = ({ onAdd }) => {
+export const CustomerForm: React.FC = () => {
+  const { addCustomer } = useCustomersContext(); // ✅ Usa contexto global
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!form.name || !form.email) {
       alert("Name and email are required!");
       return;
     }
-    onAdd(form);
-    setForm({ name: "", email: "", phone: "", address: "" });
+
+    try {
+      await addCustomer({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        address: form.address,
+      }); // Adiciona no contexto global
+
+      setForm({ name: "", email: "", phone: "", address: "" }); // Limpa formulário
+    } catch (err: any) {
+      alert(err.message || "Erro ao adicionar cliente.");
+    }
   };
 
   return (
@@ -28,12 +37,14 @@ export const CustomerForm: React.FC<Props> = ({ onAdd }) => {
         placeholder="Full name"
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
+        required
       />
       <input
         type="email"
         placeholder="Email"
         value={form.email}
         onChange={(e) => setForm({ ...form, email: e.target.value })}
+        required
       />
       <input
         type="text"
