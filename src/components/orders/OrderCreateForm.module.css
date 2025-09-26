@@ -1,5 +1,3 @@
-/* restaurant-service-dashboard/src/components/orders/OrderCreateForm.module.css */
-
 /* Overlay centralizado */
 .modalOverlay {
   position: fixed;
@@ -12,6 +10,8 @@
   justify-content: center;
   align-items: center;
   z-index: 2000;
+  padding: 1rem;
+  overflow-y: auto;
 }
 
 /* Modal */
@@ -19,11 +19,13 @@
   background: #fff;
   padding: 2rem;
   border-radius: 12px;
-  width: 500px;
-  max-width: 90%;
+  width: 450px;
+  max-width: 100%;
+  max-height: 90vh;
   box-shadow: 0 6px 18px rgba(0,0,0,0.2);
   position: relative;
   font-family: 'Poppins', sans-serif;
+  overflow-y: auto;
 }
 
 /* Form */
@@ -53,21 +55,40 @@
   margin-bottom: 0.5rem;
 }
 
-.field select,
-.field input {
+/* Select com texto truncado */
+.field select {
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
   background-color: #fff;
+  color: #333;
   transition: border 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.field select:focus,
-.field input:focus {
+.field select:focus {
   border-color: #0070f3;
   box-shadow: 0 0 0 2px rgba(0,112,243,0.2);
   outline: none;
+}
+
+/* Input número com setinhas nativas */
+.field input[type="number"] {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  text-align: center;
+  -moz-appearance: auto;
+}
+
+.field input::-webkit-outer-spin-button,
+.field input::-webkit-inner-spin-button {
+  -webkit-appearance: auto;
+  margin: 0;
 }
 
 /* Itens do pedido */
@@ -76,9 +97,44 @@
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+  flex-wrap: nowrap;
 }
 
-/* Botões */
+.orderItem select {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.orderItem input[type="number"] {
+  width: 70px;
+  text-align: center;
+}
+
+/* Botão remover item */
+.removeBtn {
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.removeBtn:hover {
+  background-color: #b52b2b;
+}
+
+/* Botões adicionais */
 .addBtn {
   background-color: #0070f3;
   color: #fff;
@@ -92,21 +148,6 @@
 
 .addBtn:hover {
   background-color: #005bb5;
-}
-
-.removeBtn {
-  background-color: #d9534f;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.removeBtn:hover {
-  background-color: #b52b2b;
 }
 
 .saveBtn {
@@ -131,18 +172,20 @@
   cursor: not-allowed;
 }
 
-/* Mensagens */
+/* Mensagens de erro */
 .error {
   color: #d9534f;
   font-weight: 500;
 }
 
+/* Total */
 .total {
   text-align: right;
   font-weight: 600;
   color: #333;
 }
 
+/* Botão fechar modal */
 .closeBtn {
   position: absolute;
   top: 10px;
@@ -157,4 +200,16 @@
 
 .closeBtn:hover {
   color: #0070f3;
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+  .modal {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .orderItem input[type="number"] {
+    width: 60px;
+  }
 }

@@ -114,7 +114,14 @@ export const OrderCreateForm: React.FC<Props> = ({ onCreate, onCancel }) => {
                     {menuItems.map((menu) => <option key={menu.id} value={menu.id}>{menu.name} (${menu.price})</option>)}
                 </select>
                 <input type="number" min={1} value={item.quantity} onChange={(e) => handleItemChange(index, "quantity", e.target.value)} />
-                <button type="button" className={styles.removeBtn} onClick={() => handleRemoveItem(index)}>Remove</button>
+                <button
+                    type="button"
+                    className={styles.removeBtn}
+                    onClick={() => handleRemoveItem(index)}
+                    aria-label="Remove item"
+                >
+                    ✕
+                </button>
                 </div>
             ))}
             <button type="button" className={styles.addBtn} onClick={handleAddItem}>+ Add Item</button>
