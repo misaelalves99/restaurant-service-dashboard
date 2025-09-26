@@ -13,10 +13,10 @@ export const useCustomers = () => {
   const [loading, setLoading] = useState(false);
 
   const loadCustomers = async () => {
-  setLoading(true);
-  const result = await fetchCustomers();
-  setCustomers(result.data);
-  setLoading(false);
+    setLoading(true);
+    const result = await fetchCustomers();
+    setCustomers(result.data);
+    setLoading(false);
   };
 
   const addCustomer = async (customer: Omit<Customer, "id" | "createdAt">) => {

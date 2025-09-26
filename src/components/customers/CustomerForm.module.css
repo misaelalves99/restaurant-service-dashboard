@@ -40,7 +40,8 @@
   transform: translateY(-1px);
 }
 
-/* Pequenas melhorias para a lista de clientes */
+/* ============================= */
+/* Estilização da lista de clientes */
 .item {
   display: flex;
   justify-content: space-between;
@@ -49,7 +50,6 @@
   border-bottom: 1px solid #eee;
   border-radius: 6px;
   transition: background 0.2s;
-  cursor: pointer;
 }
 
 .item:hover {
@@ -60,26 +60,36 @@
   color: #333;
 }
 
-button.edit {
-  background: #1976d2;
-  color: #fff;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  transition: background 0.2s;
+.actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
-button.edit:hover {
+/* ============================= */
+/* Botões de ações */
+.addBtn {
+  background: #0070f3;
+  color: #fff;
+}
+
+.addBtn:hover {
+  background: #0059c1;
+}
+
+.editBtn {
+  background: #1976d2;
+  color: #fff;
+}
+
+.editBtn:hover {
   background: #125ea2;
 }
 
-button.delete {
+.removeBtn {
   background: #d32f2f;
   color: #fff;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  transition: background 0.2s;
 }
 
-button.delete:hover {
+.removeBtn:hover {
   background: #a62323;
 }
