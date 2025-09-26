@@ -1,0 +1,23 @@
+/* restaurant-service-dashboard/src/components/orders/OrderSearch.module.css */
+
+.controls {
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.controls input {
+  padding: 0.6rem 1rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.controls input:focus {
+  border-color: #0070f3;
+  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+  outline: none;
+}
