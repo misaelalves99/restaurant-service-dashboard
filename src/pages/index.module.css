@@ -1,4 +1,4 @@
-/* src/pages/Home.module.css */
+/* src/pages/index.module.css */
 
 .container {
   position: relative;
@@ -15,7 +15,6 @@
 }
 
 .overlay {
-  /* Podemos reduzir a opacidade aqui também ou manter transparente */
   background: rgba(0, 0, 0, 0.5);
   padding: 40px;
   border-radius: 10px;
@@ -23,6 +22,9 @@
   color: #fff;
   max-width: 400px;
   width: 100%;
+
+  /* Animação de fade apenas no form */
+  animation: fadeIn 0.6s ease;
 }
 
 .title {
@@ -60,4 +62,16 @@
 
 .button:hover {
   opacity: 0.9;
+}
+
+/* Animação suave de fade e subida apenas para overlay */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

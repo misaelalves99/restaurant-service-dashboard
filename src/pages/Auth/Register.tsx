@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate, Link } from "react-router-dom";
 import { Toast } from "../../components/ui/Toast";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaUtensils } from "react-icons/fa"; // ⬅ adicionado FaUtensils
 import styles from "./Register.module.css";
 
 export const Register: React.FC = () => {
@@ -37,7 +37,10 @@ export const Register: React.FC = () => {
 
   return (
     <div className={styles.page}>
-      <div className={styles.logo}>🍽️ Restaurant Dashboard</div>
+      {/* Logo / Marca padronizada igual ao Login */}
+      <h1 className={styles.logo}>
+        <FaUtensils className={styles.icon} /> Restaurant Service
+      </h1>
 
       <div className={styles.container}>
         <h2>Criar Conta</h2>

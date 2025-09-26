@@ -70,7 +70,9 @@ export const Login: React.FC = () => {
         </form>
 
         <div className={styles.links}>
-          <Link to="/auth/register">Não tem uma conta? Cadastre-se!</Link>
+          <p>
+            Não tem uma conta? <Link to="/auth/register">Cadastre-se!</Link>
+          </p>
         </div>
 
         <div className={styles.divider}>ou entre com</div>
