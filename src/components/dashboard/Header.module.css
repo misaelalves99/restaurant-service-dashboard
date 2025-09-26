@@ -1,7 +1,80 @@
 /* restaurant-service-dashboard/src/components/dashboard/Header.module.css */
 .header {
-    background-color: #34495e;
-    color: white;
-    padding: 1rem;
-    text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #34495e 0%, #2c3e50 100%);
+  color: #ffffff;
+  padding: 1rem 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  border-bottom: 2px solid #1abc9c;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.left h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.quickStats {
+  display: flex;
+  gap: 1.2rem;
+  font-size: 0.9rem;
+  color: #dcdcdc;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.icon {
+  color: #1abc9c;
+  font-size: 1rem;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notificationBtn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.notificationBtn:hover {
+  color: #1abc9c;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+}
+
+.avatar {
+  font-size: 1.5rem;
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.logoutBtn:hover {
+  color: #e74c3c;
 }

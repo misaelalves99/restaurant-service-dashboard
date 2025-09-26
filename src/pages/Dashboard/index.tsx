@@ -8,10 +8,18 @@ import { Outlet } from 'react-router-dom';
 export const Dashboard: React.FC = () => {
     return (
         <div className={styles.dashboard}>
+            {/* Sidebar lateral */}
             <Sidebar />
+
+            {/* Área principal */}
             <div className={styles.main}>
+                {/* Cabeçalho fixo */}
                 <Header />
-                <Outlet /> {/* Aqui será renderizada a página específica: Orders, Customers ou Menu */}
+
+                {/* Conteúdo dinâmico */}
+                <div className={styles.section}>
+                    <Outlet /> 
+                </div>
             </div>
         </div>
     );

@@ -22,11 +22,15 @@ export const MenuList: React.FC = () => {
     currentPage * itemsPerPage
   );
 
-  if (loading) return <p>Loading menu...</p>;
+  const formatPriceBRL = (price: number) => {
+    return price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  };
+
+  if (loading) return <p>Carregando menu...</p>;
 
   return (
     <div className={styles.container}>
-      <h2>📋 Menu Items</h2>
+      <h2>📋 Itens do Menu</h2>
 
       <div className={styles.filter}>
         <label>Filtrar por categoria:</label>
@@ -41,25 +45,37 @@ export const MenuList: React.FC = () => {
         </select>
       </div>
 
-      <ul className={styles.list}>
-        {paginatedMenu.map((item) => (
-          <li key={item.id} className={styles.item}>
-            <div>
-              <strong>{item.name}</strong>{" "}
-              <span className={styles.category}>({item.category})</span>
-            </div>
-            <div>
-              <span>${item.price.toFixed(2)}</span>
-              <button
-                className={styles.delete}
-                onClick={() => removeMenuItem(item.id)}
-              >
-                <FaTrash />
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Categoria</th>
+              <th>Preço</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedMenu.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.category}</td>
+                <td>{formatPriceBRL(item.price)}</td>
+                <td>
+                  <button
+                    className={styles.delete}
+                    onClick={() => removeMenuItem(item.id)}
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Paginação */}
       {totalPages > 1 && (

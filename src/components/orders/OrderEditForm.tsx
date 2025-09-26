@@ -18,16 +18,21 @@ interface OrderItem {
   quantity: number;
 }
 
-export const OrderEditForm: React.FC<Props> = ({ order, onSave, onCancel, customers = [] }) => {
+export const OrderEditForm: React.FC<Props> = ({
+  order,
+  onSave,
+  onCancel,
+  customers = [],
+}) => {
   const [selectedCustomerId, setSelectedCustomerId] = useState(order.customerId);
   const [status, setStatus] = useState<Order["status"]>(order.status || "pending");
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [orderItems, setOrderItems] = useState<OrderItem[]>(order.items || []);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<string>("");
+  const [errors, setErrors] = useState("");
 
-  // Carrega menu
+  // Carregar menu
   useEffect(() => {
     const loadMenu = async () => {
       const data = await fetchMenu();
@@ -36,7 +41,7 @@ export const OrderEditForm: React.FC<Props> = ({ order, onSave, onCancel, custom
     loadMenu();
   }, []);
 
-  // Calcula total
+  // Calcular total
   useEffect(() => {
     const sum = orderItems.reduce((acc, item) => {
       const menu = menuItems.find((m) => m.id === item.menuItemId);
@@ -84,20 +89,20 @@ export const OrderEditForm: React.FC<Props> = ({ order, onSave, onCancel, custom
     <div className={styles.modalOverlay} onClick={onCancel}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         {onCancel && (
-          <button className={styles.closeBtn} onClick={onCancel} type="button" aria-label="Close">
+          <button className={styles.closeBtn} onClick={onCancel} type="button">
             ✕
           </button>
         )}
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          <h3>Edit Order #{order.id}</h3>
+          <h3>Editar Pedido #{order.id}</h3>
 
           {errors && <p className={styles.error}>{errors}</p>}
 
           <div className={styles.field}>
-            <label>Customer</label>
+            <label>Cliente</label>
             <select value={selectedCustomerId} onChange={(e) => setSelectedCustomerId(e.target.value)}>
-              <option value="">Select a customer</option>
+              <option value="">Selecione um cliente</option>
               {customers.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name} ({c.email})
@@ -107,17 +112,17 @@ export const OrderEditForm: React.FC<Props> = ({ order, onSave, onCancel, custom
           </div>
 
           <div className={styles.field}>
-            <label>Order Items</label>
+            <label>Itens do Pedido</label>
             {orderItems.map((item, index) => (
               <div key={index} className={styles.orderItem}>
                 <select
                   value={item.menuItemId}
                   onChange={(e) => handleItemChange(index, "menuItemId", e.target.value)}
                 >
-                  <option value="">Select menu item</option>
+                  <option value="">Selecione um item</option>
                   {menuItems.map((menu) => (
                     <option key={menu.id} value={menu.id}>
-                      {menu.name} (${menu.price})
+                      {menu.name} (R$ {menu.price.toFixed(2)})
                     </option>
                   ))}
                 </select>
@@ -133,7 +138,6 @@ export const OrderEditForm: React.FC<Props> = ({ order, onSave, onCancel, custom
                   type="button"
                   className={styles.removeBtn}
                   onClick={() => handleRemoveItem(index)}
-                  aria-label="Remove item"
                 >
                   ✕
                 </button>
@@ -141,23 +145,25 @@ export const OrderEditForm: React.FC<Props> = ({ order, onSave, onCancel, custom
             ))}
 
             <button type="button" className={styles.addBtn} onClick={handleAddItem}>
-              + Add Item
+              + Adicionar Item
             </button>
           </div>
 
           <div className={styles.field}>
             <label>Status</label>
             <select value={status} onChange={(e) => setStatus(e.target.value as Order["status"])}>
-              <option value="pending">Pending</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
+              <option value="pending">Pendente</option>
+              <option value="completed">Concluído</option>
+              <option value="cancelled">Cancelado</option>
             </select>
           </div>
 
-          <div className={styles.total}>Total: <strong>${total.toFixed(2)}</strong></div>
+          <div className={styles.total}>
+            Total: <strong>R$ {total.toFixed(2)}</strong>
+          </div>
 
           <button type="submit" className={styles.saveBtn} disabled={loading}>
-            {loading ? "Saving..." : "Save Order"}
+            {loading ? "Salvando..." : "Salvar Pedido"}
           </button>
         </form>
       </div>

@@ -1,5 +1,4 @@
 // src/components/customers/CustomerList.tsx
-
 import React, { useEffect, useState } from "react";
 import { useCustomers } from "../../hooks/useCustomers";
 import { CustomerDetail } from "./CustomerDetail";
@@ -45,15 +44,22 @@ export const CustomerList: React.FC = () => {
     <div className={styles.container}>
       <h2>👥 Customer Management</h2>
 
-      {/* Não precisa mais passar onAdd, CustomerForm pega do contexto */}
+      {/* Formulário para adicionar cliente */}
       <CustomerForm />
 
       {loading ? (
         <p>Loading...</p>
       ) : (
         <ul className={styles.list}>
+          <li className={styles.header}>
+            <span>ID</span>
+            <span>Name</span>
+            <span>Email</span>
+            <span>Actions</span>
+          </li>
           {customers.map((customer) => (
             <li key={customer.id} className={styles.item}>
+              <span>{customer.id}</span> {/* ✅ ID do cliente */}
               <span>{customer.name}</span>
               <span>{customer.email}</span>
               <div className={styles.actions}>

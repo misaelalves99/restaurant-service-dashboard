@@ -8,13 +8,14 @@ import { Dashboard } from "../pages/Dashboard";
 import { OrdersPage } from "../pages/Dashboard/Orders";
 import { CustomersPage } from "../pages/Dashboard/Customers";
 import { MenuPage } from "../pages/Dashboard/Menu";
+import { DashboardHome } from "../pages/Dashboard/DashboardHome"; // Página inicial do dashboard
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {/* Página inicial */}
+        {/* Página inicial pública */}
         <Route path="/" element={<Home />} />
 
         {/* Autenticação */}
@@ -30,13 +31,19 @@ export const AppRoutes: React.FC = () => {
             </ProtectedRoute>
           }
         >
+          {/* Página inicial do dashboard */}
+          <Route path="" element={<DashboardHome />} />
+
+          {/* Rotas internas do dashboard */}
           <Route path="orders" element={<OrdersPage />} />
           <Route path="customers" element={<CustomersPage />} />
           <Route path="menu" element={<MenuPage />} />
-          <Route path="" element={<Navigate to="orders" replace />} />
+
+          {/* Qualquer rota inválida dentro do dashboard redireciona para home do dashboard */}
+          <Route path="*" element={<Navigate to="" replace />} />
         </Route>
 
-        {/* Qualquer rota inválida */}
+        {/* Qualquer rota inválida na aplicação redireciona para home pública */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

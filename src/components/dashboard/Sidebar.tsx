@@ -2,6 +2,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Sidebar.module.css';
+import { FaHome, FaShoppingCart, FaUsers, FaUtensils } from 'react-icons/fa';
 
 export const Sidebar: React.FC = () => {
     return (
@@ -11,12 +12,22 @@ export const Sidebar: React.FC = () => {
                 <ul>
                     <li>
                         <NavLink
+                            to="/dashboard"
+                            className={({ isActive }) =>
+                                isActive ? styles.active : undefined
+                            }
+                        >
+                            <FaHome className={styles.icon}/> Início
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
                             to="/dashboard/orders"
                             className={({ isActive }) =>
                                 isActive ? styles.active : undefined
                             }
                         >
-                            Orders
+                            <FaShoppingCart className={styles.icon}/> Pedidos
                         </NavLink>
                     </li>
                     <li>
@@ -26,7 +37,7 @@ export const Sidebar: React.FC = () => {
                                 isActive ? styles.active : undefined
                             }
                         >
-                            Customers
+                            <FaUsers className={styles.icon}/> Clientes
                         </NavLink>
                     </li>
                     <li>
@@ -36,7 +47,7 @@ export const Sidebar: React.FC = () => {
                                 isActive ? styles.active : undefined
                             }
                         >
-                            Menu
+                            <FaUtensils className={styles.icon}/> Menu
                         </NavLink>
                     </li>
                 </ul>

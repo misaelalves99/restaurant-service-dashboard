@@ -40,7 +40,7 @@ export const fetchOrders = async (customerId?: string): Promise<Order[]> => {
   return [...orders];
 };
 
-// ✅ Cria um novo pedido, calculando total automaticamente
+// ✅ Cria um novo pedido com ID sequencial
 export const createOrder = async (
   order: Omit<Order, "id" | "createdAt" | "total">
 ): Promise<Order> => {
@@ -57,9 +57,13 @@ export const createOrder = async (
     return sum + menu.price * item.quantity;
   }, 0);
 
+  // ID sequencial
+  const maxId = orders.length > 0 ? Math.max(...orders.map((o) => Number(o.id))) : 0;
+  const newId = (maxId + 1).toString();
+
   const newOrder: Order = {
     ...order,
-    id: Date.now().toString(),
+    id: newId,
     createdAt: new Date().toISOString().split("T")[0],
     total,
     status: order.status || "pending",
