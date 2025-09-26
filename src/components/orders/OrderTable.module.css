@@ -4,6 +4,10 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .table th,
@@ -13,31 +17,60 @@
   border-bottom: 1px solid #eee;
 }
 
+.table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Ações */
 .actions {
   display: flex;
   gap: 0.5rem;
 }
 
+/* Botões refinados */
 .detailsBtn,
 .editBtn,
 .removeBtn {
   border: none;
-  background: transparent;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 1.2rem;
-  transition: color 0.2s;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cores e hover */
+.detailsBtn {
+  background-color: #0070f3;
+  color: #fff;
 }
 
 .detailsBtn:hover {
-  color: #0070f3;
+  background-color: #005bb5;
+}
+
+.editBtn {
+  background-color: #f0ad4e;
+  color: #fff;
 }
 
 .editBtn:hover {
-  color: #f0ad4e;
+  background-color: #d48806;
+}
+
+.removeBtn {
+  background-color: #d9534f;
+  color: #fff;
 }
 
 .removeBtn:hover {
-  color: #d9534f;
+  background-color: #c12e2a;
 }
 
 /* Status badges */

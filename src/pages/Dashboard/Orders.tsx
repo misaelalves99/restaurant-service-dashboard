@@ -7,14 +7,16 @@ import { OrderDetail } from "../../components/orders/OrderDetail";
 import { OrderEditForm } from "../../components/orders/OrderEditForm";
 import { OrderTable } from "../../components/orders/OrderTable";
 import { OrderSearch } from "../../components/orders/OrderSearch";
+import { OrderCreateForm } from "../../components/orders/OrderCreateForm"; // Import do form
 import styles from "./Orders.module.css";
-import { FiX } from "react-icons/fi";
+import { FiX, FiPlus } from "react-icons/fi";
 
 export const OrdersPage: React.FC = () => {
-  const { orders, removeOrder, editOrder, loadOrders } = useOrders();
+  const { orders, removeOrder, editOrder, addOrder, loadOrders } = useOrders();
   const [search, setSearch] = useState("");
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [editMode, setEditMode] = useState(false);
+  const [createMode, setCreateMode] = useState(false); // Novo estado para criar pedido
 
   const filteredOrders = orders.filter(
     (o) =>
@@ -23,7 +25,9 @@ export const OrdersPage: React.FC = () => {
       o.status?.includes(search.toLowerCase() || "")
   );
 
-  useEffect(() => { loadOrders(); }, []);
+  useEffect(() => {
+    loadOrders();
+  }, []);
 
   const handleSave = async (updatedOrder: Order) => {
     await editOrder(updatedOrder.id, updatedOrder);
@@ -31,9 +35,22 @@ export const OrdersPage: React.FC = () => {
     setEditMode(false);
   };
 
+  const handleCreate = async (newOrder: Omit<Order, "id" | "createdAt">) => {
+    await addOrder(newOrder);
+    setCreateMode(false);
+  };
+
   return (
     <div className={styles.container}>
-      <h2>🛒 Orders</h2>
+      <div className={styles.header}>
+        <h2>🛒 Orders</h2>
+        <button
+          className={styles.newOrderBtn}
+          onClick={() => setCreateMode(true)}
+        >
+          <FiPlus /> Novo Pedido
+        </button>
+      </div>
 
       <OrderSearch search={search} onChange={setSearch} />
 
@@ -44,6 +61,15 @@ export const OrdersPage: React.FC = () => {
         onDelete={(id) => removeOrder(id)}
       />
 
+      {/* Modal de criação */}
+      {createMode && (
+        <OrderCreateForm
+          onCreate={handleCreate}
+          onCancel={() => setCreateMode(false)}
+        />
+      )}
+
+      {/* Drawer lateral para detalhes */}
       {selectedOrder && !editMode && (
         <div className={styles.overlay} onClick={() => setSelectedOrder(null)}>
           <div className={styles.drawer} onClick={(e) => e.stopPropagation()}>
@@ -55,6 +81,7 @@ export const OrdersPage: React.FC = () => {
         </div>
       )}
 
+      {/* Modal central para edição */}
       {selectedOrder && editMode && (
         <OrderEditForm
           order={selectedOrder}
