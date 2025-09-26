@@ -25,32 +25,48 @@ export const CustomerList: React.FC = () => {
       ) : (
         <ul className={styles.list}>
           {customers.map((customer) => (
-            <li
-              key={customer.id}
-              className={styles.item}
-              onClick={() => setSelectedCustomer(customer.id)}
-            >
+            <li key={customer.id} className={styles.item}>
               <span>{customer.name}</span>
               <span>{customer.email}</span>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeCustomer(customer.id);
-                }}
-              >
-                ❌ Remove
-              </button>
+              <div className={styles.actions}>
+                <button
+                  onClick={() => setSelectedCustomer(customer.id)}
+                  className={styles.detailsBtn}
+                >
+                  🔍 Details
+                </button>
+                <button
+                  onClick={() => removeCustomer(customer.id)}
+                  className={styles.removeBtn}
+                >
+                  ❌ Remove
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       )}
 
+      {/* Painel lateral de detalhes */}
       {selectedCustomer && (
-        <CustomerDetail
-          customer={
-            customers.find((c) => c.id === selectedCustomer) || customers[0]
-          }
-        />
+        <div className={styles.overlay} onClick={() => setSelectedCustomer(null)}>
+          <div
+            className={styles.drawer}
+            onClick={(e) => e.stopPropagation()} // evita fechar ao clicar dentro
+          >
+            <button
+              className={styles.closeBtn}
+              onClick={() => setSelectedCustomer(null)}
+            >
+              ✖
+            </button>
+            <CustomerDetail
+              customer={
+                customers.find((c) => c.id === selectedCustomer) || customers[0]
+              }
+            />
+          </div>
+        </div>
       )}
     </div>
   );

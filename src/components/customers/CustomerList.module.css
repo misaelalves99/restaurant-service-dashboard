@@ -1,99 +1,100 @@
-/* src/components/customers/CustomerList.module.css */
+/* restaurant-service-dashboard/src/components/customers/CustomerList.module.css */
 
 .container {
-  padding: 1.2rem;
-  background: #ffffff;
+  padding: 1.5rem;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   font-family: 'Poppins', sans-serif;
-  color: #333; /* texto padrão escuro */
-}
-
-h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #222; /* título mais elegante */
 }
 
 .list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 1rem 0 0;
 }
 
 .item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1rem;
+  padding: 0.8rem 1rem;
   border-bottom: 1px solid #eee;
-  border-radius: 6px;
-  transition: background 0.2s;
-  cursor: pointer;
-  color: #333; /* texto dos items escuro */
 }
 
-.item:hover {
-  background: #f5f5f5;
+.actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
-.item span {
-  font-size: 14px;
-  color: #444; /* texto mais elegante */
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 12px;
-}
-
-.table th,
-.table td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #eee;
-  text-align: left;
-  color: #333;
-}
-
-.table th {
-  background: #f9f9f9;
-  font-weight: 600;
-}
-
-.table tr:hover {
-  background: #f5f5f5;
-}
-
-button {
-  margin-right: 8px;
-  padding: 6px 12px;
+.detailsBtn {
+  background: #0070f3;
+  color: white;
   border: none;
+  padding: 0.4rem 0.8rem;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.2s, transform 0.15s;
+  transition: background 0.2s;
 }
 
-button:hover {
-  transform: translateY(-1px);
+.detailsBtn:hover {
+  background: #005bb5;
 }
 
-.edit {
-  background: #1976d2;
-  color: #fff;
-}
-
-.edit:hover {
-  background: #125ea2;
-}
-
-.delete {
+.removeBtn {
   background: #d32f2f;
-  color: #fff;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.delete:hover {
+.removeBtn:hover {
   background: #a62323;
+}
+
+/* Overlay que escurece o fundo */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+}
+
+/* Drawer lateral */
+.drawer {
+  background: white;
+  width: 350px;
+  height: 100%;
+  padding: 1rem;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+  border-radius: 12px 0 0 12px;
+  animation: slideIn 0.3s ease;
+  position: relative;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
