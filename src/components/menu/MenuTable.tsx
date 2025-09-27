@@ -1,3 +1,4 @@
+// restaurant-service-dashboard/src/components/menu/MenuTable.tsx
 import React from "react";
 import { FiTrash2, FiEye, FiEdit, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import styles from "./MenuTable.module.css";
@@ -8,9 +9,6 @@ interface Props {
   onView: (item: MenuItem) => void;
   onEdit: (item: MenuItem) => void;
   onDelete: (item: MenuItem) => void;
-  categories: string[];
-  categoryFilter: string;
-  onCategoryChange: (value: string) => void;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
@@ -21,9 +19,6 @@ export const MenuTable: React.FC<Props> = ({
   onView,
   onEdit,
   onDelete,
-  categories,
-  categoryFilter,
-  onCategoryChange,
   currentPage,
   setCurrentPage,
   totalPages,
@@ -34,26 +29,6 @@ export const MenuTable: React.FC<Props> = ({
 
   return (
     <div className={styles.container}>
-      {/* Filtro */}
-      <div className={styles.filter}>
-        <label htmlFor="categoryFilter">Filtrar por categoria:</label>
-        <select
-          id="categoryFilter"
-          value={categoryFilter}
-          onChange={(e) => {
-            onCategoryChange(e.target.value);
-            setCurrentPage(1);
-          }}
-        >
-          <option value="">Todas</option>
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
-      </div>
-
       {/* Tabela */}
       <div className={styles.tableWrapper}>
         <table className={styles.table}>

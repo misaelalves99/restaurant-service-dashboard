@@ -1,4 +1,5 @@
 // src/api/menu.ts
+
 import { MenuItem } from "../types/menu";
 
 // Fake database ampliado (preços em reais, multiplicados por 5)

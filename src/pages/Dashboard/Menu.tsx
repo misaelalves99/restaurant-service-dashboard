@@ -1,8 +1,8 @@
-// restaurant-service-dashboard/src/components/menu/MenuPage.tsx
+// restaurant-service-dashboard/src/pages/menu/MenuPage.tsx
 
 import React, { useState } from "react";
 import { MenuItemForm } from "../../components/menu/MenuItemForm";
-import { MenuTable } from "../../components/menu/MenuTable";
+import { MenuFilter } from "../../components/menu/MenuFilter";
 import { MenuDetail } from "../../components/menu/MenuDetail";
 import { MenuEdit } from "../../components/menu/MenuEdit";
 import { MenuDelete } from "../../components/menu/MenuDelete";
@@ -13,28 +13,10 @@ import styles from "./Menu.module.css";
 export const MenuPage: React.FC = () => {
   const { menu, removeMenuItem, updateMenuItem, loading } = useMenuContext();
 
-  const [categoryFilter, setCategoryFilter] = useState<string>("");
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-
-  const itemsPerPage = 10;
-  const categories: string[] = Array.from(
-    new Set(menu.map((item) => item.category || "Outros"))
-  );
-
-  const filteredMenu = categoryFilter
-    ? menu.filter((item) => item.category === categoryFilter)
-    : menu;
-
-  const totalPages = Math.ceil(filteredMenu.length / itemsPerPage);
-  const paginatedMenu = filteredMenu.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   if (loading) return <p>Carregando menu...</p>;
 
@@ -57,22 +39,18 @@ export const MenuPage: React.FC = () => {
     <div className={styles.container}>
       <h2>🍽️ Gerenciamento de cardápio</h2>
 
+      {/* Formulário de criação */}
       <MenuItemForm />
 
-      <MenuTable
-        items={paginatedMenu}
+      {/* Filtro de categoria + Tabela (MenuFilter cuida de filtro, paginação e tabela) */}
+      <MenuFilter
+        menu={menu}
         onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
-        categories={categories}
-        categoryFilter={categoryFilter}
-        onCategoryChange={setCategoryFilter}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
       />
 
-      {/* Modal de Detalhes */}
+      {/* Modais */}
       {isDetailOpen && selectedItem && (
         <MenuDetail
           item={selectedItem}
@@ -83,7 +61,6 @@ export const MenuPage: React.FC = () => {
         />
       )}
 
-      {/* Modal de Edição */}
       {isEditOpen && selectedItem && (
         <MenuEdit
           item={selectedItem}
@@ -99,7 +76,6 @@ export const MenuPage: React.FC = () => {
         />
       )}
 
-      {/* Modal de Deleção */}
       {isDeleteOpen && selectedItem && (
         <MenuDelete
           itemName={selectedItem.name}

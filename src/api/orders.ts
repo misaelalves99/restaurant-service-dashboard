@@ -1,7 +1,8 @@
 // src/api/orders.ts
+
 import { Order } from "../types/order";
 import { MenuItem } from "../types/menu";
-import { fetchMenu } from "./menu"; // assume que fetchMenu existe
+import { fetchMenu } from "./menu";
 
 // Fake database
 let orders: Order[] = [

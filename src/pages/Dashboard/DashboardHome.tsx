@@ -1,3 +1,5 @@
+// restaurant-service-dashboard/src/pages/Dashboard/DashboardHome.tsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './DashboardHome.module.css';

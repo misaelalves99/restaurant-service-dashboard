@@ -1,4 +1,5 @@
 // restaurant-service-dashboard/src/pages/Dashboard/index.tsx
+
 import React from 'react';
 import { Sidebar } from '../../components/dashboard/Sidebar';
 import { Header } from '../../components/dashboard/Header';
