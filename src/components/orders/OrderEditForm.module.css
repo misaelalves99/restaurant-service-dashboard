@@ -79,9 +79,9 @@
 /* Input número com setinhas nativas */
 .field input[type="number"] {
   text-align: center;
-  -webkit-appearance: textfield;
-  -moz-appearance: textfield;
-  appearance: textfield;
+  appearance: textfield;          /* padrão moderno */
+  -webkit-appearance: textfield;  /* Safari/WebKit */
+  -moz-appearance: textfield;     /* Firefox */
 }
 
 /* Remove spin buttons WebKit */
@@ -94,6 +94,7 @@
 /* Remove spin buttons Firefox */
 .field input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield; /* redundante mas seguro */
 }
 
 /* Itens do pedido */
