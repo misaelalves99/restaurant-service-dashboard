@@ -3,19 +3,13 @@
 import React from "react";
 import { FiTrash2, FiEye, FiEdit } from "react-icons/fi";
 import styles from "./MenuTable.module.css";
-
-export interface MenuItem {
-  id: string;
-  name: string;
-  category?: string;
-  price: number;
-}
+import { MenuItem } from "../../types/menu";
 
 interface Props {
   items: MenuItem[];
   onView: (item: MenuItem) => void;
   onEdit: (item: MenuItem) => void;
-  onDelete: (id: string) => void;
+  onDelete: (item: MenuItem) => void;
   categories: string[];
   categoryFilter: string;
   onCategoryChange: (value: string) => void;
@@ -99,7 +93,7 @@ export const MenuTable: React.FC<Props> = ({
                     </button>
                     <button
                       className={styles.removeBtn}
-                      onClick={() => onDelete(item.id)}
+                      onClick={() => onDelete(item)} // ✅ agora recebe MenuItem
                       title="Remover item"
                     >
                       <FiTrash2 />

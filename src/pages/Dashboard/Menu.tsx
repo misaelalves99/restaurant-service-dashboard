@@ -5,19 +5,21 @@ import { MenuItemForm } from "../../components/menu/MenuItemForm";
 import { MenuTable } from "../../components/menu/MenuTable";
 import { MenuDetail } from "../../components/menu/MenuDetail";
 import { MenuEdit } from "../../components/menu/MenuEdit";
-import { useMenuContext } from "../../contexts/MenuContext"; // ✅ corrigido import
-import { MenuItem } from "../../types/menu"; // ✅ tipagem correta
+import { MenuDelete } from "../../components/menu/MenuDelete";
+import { useMenuContext } from "../../contexts/MenuContext";
+import { MenuItem } from "../../types/menu";
 import styles from "./Menu.module.css";
 
 export const MenuPage: React.FC = () => {
   const { menu, removeMenuItem, updateMenuItem, loading } = useMenuContext();
+
   const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Estado para controlar os modais
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null); // ✅ tipado corretamente
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const itemsPerPage = 10;
   const categories: string[] = Array.from(
@@ -46,6 +48,11 @@ export const MenuPage: React.FC = () => {
     setIsEditOpen(true);
   };
 
+  const handleDelete = (item: MenuItem) => {
+    setSelectedItem(item);
+    setIsDeleteOpen(true);
+  };
+
   return (
     <div className={styles.container}>
       <h2>🍽️ Menu Management</h2>
@@ -56,7 +63,7 @@ export const MenuPage: React.FC = () => {
         items={paginatedMenu}
         onView={handleView}
         onEdit={handleEdit}
-        onDelete={(id: string) => removeMenuItem(id)} // ✅ tipado
+        onDelete={handleDelete}
         categories={categories}
         categoryFilter={categoryFilter}
         onCategoryChange={setCategoryFilter}
@@ -81,12 +88,28 @@ export const MenuPage: React.FC = () => {
         <MenuEdit
           item={selectedItem}
           onSave={(updatedItem) => {
-            updateMenuItem(updatedItem.id, updatedItem); // ✅ corrige chamada
+            updateMenuItem(updatedItem.id, updatedItem);
             setIsEditOpen(false);
             setSelectedItem(null);
           }}
           onClose={() => {
             setIsEditOpen(false);
+            setSelectedItem(null);
+          }}
+        />
+      )}
+
+      {/* Modal de Deleção */}
+      {isDeleteOpen && selectedItem && (
+        <MenuDelete
+          itemName={selectedItem.name}
+          onConfirm={() => {
+            removeMenuItem(selectedItem.id);
+            setIsDeleteOpen(false);
+            setSelectedItem(null);
+          }}
+          onCancel={() => {
+            setIsDeleteOpen(false);
             setSelectedItem(null);
           }}
         />

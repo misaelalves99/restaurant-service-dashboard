@@ -1,37 +1,36 @@
 // restaurant-service-dashboard/src/components/customers/CustomerTable.tsx
+
 import React, { useState, useEffect } from "react";
 import { Customer } from "../../types/customer";
 import { useCustomers } from "../../hooks/useCustomers";
 import { CustomerDetail } from "./CustomerDetail";
 import { CustomerForm } from "./CustomerForm";
 import { CustomerEditForm } from "./CustomerEditForm";
+import { CustomerDelete } from "./CustomerDelete";
 import styles from "./CustomerTable.module.css";
-import { FiEye, FiEdit, FiTrash2, FiX } from "react-icons/fi";
+import { FiEye, FiEdit, FiTrash2 } from "react-icons/fi";
 
 export const CustomerTable: React.FC = () => {
   const { customers, loading, loadCustomers, editCustomer, removeCustomer } = useCustomers();
 
-  const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
-  const [editMode, setEditMode] = useState(false);
-  const [deleteMode, setDeleteMode] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [mode, setMode] = useState<"view" | "edit" | "delete" | null>(null);
 
   useEffect(() => {
     loadCustomers();
   }, []);
 
-  const customer = customers.find(c => c.id === selectedCustomer) || null;
-
   const handleSave = async (updatedCustomer: Customer) => {
     await editCustomer(updatedCustomer.id, updatedCustomer);
     setSelectedCustomer(null);
-    setEditMode(false);
+    setMode(null);
   };
 
   const handleDelete = async () => {
     if (selectedCustomer) {
-      await removeCustomer(selectedCustomer);
+      await removeCustomer(selectedCustomer.id);
       setSelectedCustomer(null);
-      setDeleteMode(false);
+      setMode(null);
     }
   };
 
@@ -55,7 +54,7 @@ export const CustomerTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {customers.map(customer => (
+            {customers.map((customer) => (
               <tr key={customer.id}>
                 <td>{customer.id}</td>
                 <td>{customer.name}</td>
@@ -64,9 +63,8 @@ export const CustomerTable: React.FC = () => {
                   <button
                     className={styles.detailsBtn}
                     onClick={() => {
-                      setSelectedCustomer(customer.id);
-                      setEditMode(false);
-                      setDeleteMode(false);
+                      setSelectedCustomer(customer);
+                      setMode("view");
                     }}
                   >
                     <FiEye />
@@ -74,9 +72,8 @@ export const CustomerTable: React.FC = () => {
                   <button
                     className={styles.editBtn}
                     onClick={() => {
-                      setSelectedCustomer(customer.id);
-                      setEditMode(true);
-                      setDeleteMode(false);
+                      setSelectedCustomer(customer);
+                      setMode("edit");
                     }}
                   >
                     <FiEdit />
@@ -84,9 +81,8 @@ export const CustomerTable: React.FC = () => {
                   <button
                     className={styles.removeBtn}
                     onClick={() => {
-                      setSelectedCustomer(customer.id);
-                      setDeleteMode(true);
-                      setEditMode(false);
+                      setSelectedCustomer(customer);
+                      setMode("delete");
                     }}
                   >
                     <FiTrash2 />
@@ -98,51 +94,39 @@ export const CustomerTable: React.FC = () => {
         </table>
       )}
 
-      {/* Drawer lateral para detalhes */}
-      {selectedCustomer && customer && !editMode && !deleteMode && (
-        <div className={styles.overlay} onClick={() => setSelectedCustomer(null)}>
-          <div className={styles.drawer} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.closeBtn} onClick={() => setSelectedCustomer(null)}>
-              <FiX />
-            </button>
-            <CustomerDetail customer={customer} />
-          </div>
-        </div>
-      )}
-
-      {/* Modal central para edição */}
-      {selectedCustomer && customer && editMode && (
-        <CustomerEditForm
-          customer={customer}
-          onSave={handleSave}
-          onCancel={() => setSelectedCustomer(null)}
+      {/* Modal Detalhes */}
+      {selectedCustomer && mode === "view" && (
+        <CustomerDetail
+          customer={selectedCustomer}
+          onClose={() => {
+            setSelectedCustomer(null);
+            setMode(null);
+          }}
         />
       )}
 
-      {/* Modal central para confirmação de exclusão */}
-      {selectedCustomer && customer && deleteMode && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h3>⚠️ Confirmar Exclusão</h3>
-            <p>
-              Tem certeza que deseja excluir <strong>{customer.name}</strong>?
-            </p>
-            <div className={styles.modalActions}>
-              <button
-                className={styles.cancelBtn}
-                onClick={() => {
-                  setSelectedCustomer(null);
-                  setDeleteMode(false);
-                }}
-              >
-                Cancelar
-              </button>
-              <button className={styles.confirmDeleteBtn} onClick={handleDelete}>
-                Sim, Excluir
-              </button>
-            </div>
-          </div>
-        </div>
+      {/* Modal Edição */}
+      {selectedCustomer && mode === "edit" && (
+        <CustomerEditForm
+          customer={selectedCustomer}
+          onSave={handleSave}
+          onCancel={() => {
+            setSelectedCustomer(null);
+            setMode(null);
+          }}
+        />
+      )}
+
+      {/* Modal Exclusão */}
+      {selectedCustomer && mode === "delete" && (
+        <CustomerDelete
+          customerName={selectedCustomer.name}
+          onConfirm={handleDelete}
+          onCancel={() => {
+            setSelectedCustomer(null);
+            setMode(null);
+          }}
+        />
       )}
     </div>
   );

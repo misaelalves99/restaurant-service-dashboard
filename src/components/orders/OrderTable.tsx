@@ -11,7 +11,7 @@ interface Props {
   customers?: Customer[];
   onView: (order: Order) => void;
   onEdit: (order: Order) => void;
-  onDelete: (id: string) => void;
+  onDelete: (order: Order) => void; // Alterado para receber a Order inteira
 }
 
 export const OrderTable: React.FC<Props> = ({
@@ -19,10 +19,10 @@ export const OrderTable: React.FC<Props> = ({
   customers = [],
   onView,
   onEdit,
-  onDelete
+  onDelete,
 }) => {
   const getCustomerName = (customerId: string) => {
-    const customer = customers.find(c => c.id === customerId);
+    const customer = customers.find((c) => c.id === customerId);
     return customer ? customer.name : customerId; // fallback para ID
   };
 
@@ -31,34 +31,54 @@ export const OrderTable: React.FC<Props> = ({
       <thead>
         <tr>
           <th>Pedido #</th>
-          <th>Cliente</th> {/* Nome do cliente */}
+          <th>Cliente</th>
           <th>Total (R$)</th>
           <th>Status</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        {orders.map((order) => (
-          <tr key={order.id}>
-            <td>{order.id}</td>
-            <td>{getCustomerName(order.customerId)}</td>
-            <td>{order.total.toFixed(2)}</td>
-            <td className={styles[order.status || "pending"]}>
-              {order.status?.toUpperCase()}
-            </td>
-            <td className={styles.actions}>
-              <button className={styles.detailsBtn} onClick={() => onView(order)}>
-                <FiEye />
-              </button>
-              <button className={styles.editBtn} onClick={() => onEdit(order)}>
-                <FiEdit />
-              </button>
-              <button className={styles.removeBtn} onClick={() => onDelete(order.id)}>
-                <FiTrash2 />
-              </button>
+        {orders.length > 0 ? (
+          orders.map((order) => (
+            <tr key={order.id}>
+              <td>{order.id}</td>
+              <td>{getCustomerName(order.customerId)}</td>
+              <td>{order.total.toFixed(2)}</td>
+              <td className={styles[order.status || "pending"]}>
+                {order.status?.toUpperCase()}
+              </td>
+              <td className={styles.actions}>
+                <button
+                  className={styles.detailsBtn}
+                  onClick={() => onView(order)}
+                  title="Ver detalhes"
+                >
+                  <FiEye />
+                </button>
+                <button
+                  className={styles.editBtn}
+                  onClick={() => onEdit(order)}
+                  title="Editar pedido"
+                >
+                  <FiEdit />
+                </button>
+                <button
+                  className={styles.removeBtn}
+                  onClick={() => onDelete(order)}
+                  title="Remover pedido"
+                >
+                  <FiTrash2 />
+                </button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={5} className={styles.noData}>
+              Nenhum pedido encontrado.
             </td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   );
