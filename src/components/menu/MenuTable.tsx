@@ -1,7 +1,5 @@
-// restaurant-service-dashboard/src/components/menu/MenuTable.tsx
-
 import React from "react";
-import { FiTrash2, FiEye, FiEdit } from "react-icons/fi";
+import { FiTrash2, FiEye, FiEdit, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import styles from "./MenuTable.module.css";
 import { MenuItem } from "../../types/menu";
 
@@ -93,7 +91,7 @@ export const MenuTable: React.FC<Props> = ({
                     </button>
                     <button
                       className={styles.removeBtn}
-                      onClick={() => onDelete(item)} // ✅ agora recebe MenuItem
+                      onClick={() => onDelete(item)}
                       title="Remover item"
                     >
                       <FiTrash2 />
@@ -119,7 +117,7 @@ export const MenuTable: React.FC<Props> = ({
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
-            ◀
+            <FiChevronLeft />
           </button>
           {Array.from({ length: totalPages }, (_, i) => (
             <button
@@ -134,7 +132,7 @@ export const MenuTable: React.FC<Props> = ({
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
           >
-            ▶
+            <FiChevronRight />
           </button>
         </div>
       )}

@@ -17,7 +17,6 @@ export const OrderDetail: React.FC<Props> = ({ order, customers = [], menuItems:
 
   useEffect(() => {
     if (initialMenuItems.length === 0) {
-      // Carrega menu se não foi passado como prop
       const loadMenu = async () => {
         const data = await fetchMenu();
         setMenuItems(data);
@@ -37,15 +36,15 @@ export const OrderDetail: React.FC<Props> = ({ order, customers = [], menuItems:
 
   return (
     <div className={styles.container}>
-      <h3>Order #{order.id}</h3>
+      <h3>Pedido #{order.id}</h3>
 
       <div className={styles.section}>
-        <h4>Customer</h4>
+        <h4>Cliente</h4>
         <p>{customer ? `${customer.name} (${customer.email})` : order.customerId}</p>
       </div>
 
       <div className={styles.section}>
-        <h4>Items</h4>
+        <h4>Itens do Pedido</h4>
         {order.items && order.items.length > 0 ? (
           <ul className={styles.itemsList}>
             {order.items.map((item, index) => {
@@ -58,30 +57,30 @@ export const OrderDetail: React.FC<Props> = ({ order, customers = [], menuItems:
                 <li key={index} className={styles.item}>
                   <span className={styles.itemName}>{itemName}</span>
                   <span className={styles.itemQty}>x{item.quantity || 1}</span>
-                  <span className={styles.itemPrice}>${itemTotal.toFixed(2)}</span>
+                  <span className={styles.itemPrice}>R${itemTotal.toFixed(2)}</span>
                 </li>
               );
             })}
           </ul>
         ) : (
-          <p>No items added</p>
+          <p>Nenhum item adicionado</p>
         )}
       </div>
 
       <div className={styles.section}>
         <h4>Status</h4>
         <span className={`${styles.status} ${styles[order.status || "pending"]}`}>
-          {order.status?.toUpperCase() || "PENDING"}
+          {order.status?.toUpperCase() || "PENDENTE"}
         </span>
       </div>
 
       <div className={styles.section}>
         <h4>Total</h4>
-        <p className={styles.total}>${total.toFixed(2)}</p>
+        <p className={styles.total}>R${total.toFixed(2)}</p>
       </div>
 
       <div className={styles.section}>
-        <h4>Created At</h4>
+        <h4>Criado em</h4>
         <p>{new Date(order.createdAt).toLocaleString()}</p>
       </div>
     </div>

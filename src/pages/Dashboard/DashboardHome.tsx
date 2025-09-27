@@ -1,5 +1,5 @@
-// restaurant-service-dashboard/src/pages/dashboard/DashboardHome.tsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './DashboardHome.module.css';
 import { FaUtensils, FaConciergeBell, FaCashRegister } from 'react-icons/fa';
 import { DashboardCarousel } from '../../components/dashboard/DashboardCarousel';
@@ -28,10 +28,10 @@ export const DashboardHome: React.FC = () => {
 
             {/* Cards de atalhos */}
             <div className={styles.cards}>
-                <div className={styles.card}>📋 Ver Pedidos</div>
-                <div className={styles.card}>👥 Gerenciar Clientes</div>
-                <div className={styles.card}>🍽️ Gerenciar Menu</div>
-                <div className={styles.card}>💰 Relatórios</div>
+                <Link to="/dashboard/orders" className={styles.card}>📋 Ver Pedidos</Link>
+                <Link to="/dashboard/customers" className={styles.card}>👥 Gerenciar Clientes</Link>
+                <Link to="/dashboard/menu" className={styles.card}>🍽️ Gerenciar Menu</Link>
+                <Link to="/dashboard/reports" className={styles.card}>💰 Relatórios</Link>
             </div>
         </div>
     );

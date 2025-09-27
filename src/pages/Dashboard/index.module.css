@@ -10,7 +10,7 @@
 .main {
   flex: 1;
   margin-left: 220px; /* largura da sidebar */
-  padding: 2rem 3rem; /* espaçamento interno padrão */
+  padding: 0 3rem 2rem 3rem; /* top 0, right 3rem, bottom 2rem, left 3rem */
   min-height: 100vh;
 
   display: flex;
@@ -19,7 +19,6 @@
 
   max-width: 1200px; /* largura máxima do conteúdo */
   margin-right: auto;
-  margin-left: 220px; /* mantém distância da sidebar */
 }
 
 /* Área de seção/painel */

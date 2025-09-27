@@ -43,7 +43,7 @@ export const Register: React.FC = () => {
       </h1>
 
       <div className={styles.container}>
-        <h2>Criar Conta</h2>
+        <h2 className={styles.title}>Criar Conta</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="text"

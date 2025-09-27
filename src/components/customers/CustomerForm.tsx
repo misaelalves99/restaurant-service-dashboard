@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import styles from "./CustomerForm.module.css";
 import { useCustomersContext } from "../../contexts/CustomersContext";
+import { FaPlus } from "react-icons/fa";
 
 export const CustomerForm: React.FC = () => {
   const { addCustomer } = useCustomersContext(); // ✅ Usa contexto global
@@ -12,7 +13,7 @@ export const CustomerForm: React.FC = () => {
     e.preventDefault();
 
     if (!form.name || !form.email) {
-      alert("Name and email are required!");
+      alert("Nome e e-mail são obrigatórios!");
       return;
     }
 
@@ -34,31 +35,33 @@ export const CustomerForm: React.FC = () => {
     <form onSubmit={handleSubmit} className={styles.form}>
       <input
         type="text"
-        placeholder="Full name"
+        placeholder="Nome completo"
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
         required
       />
       <input
         type="email"
-        placeholder="Email"
+        placeholder="E-mail"
         value={form.email}
         onChange={(e) => setForm({ ...form, email: e.target.value })}
         required
       />
       <input
         type="text"
-        placeholder="Phone"
+        placeholder="Telefone"
         value={form.phone}
         onChange={(e) => setForm({ ...form, phone: e.target.value })}
       />
       <input
         type="text"
-        placeholder="Address"
+        placeholder="Endereço"
         value={form.address}
         onChange={(e) => setForm({ ...form, address: e.target.value })}
       />
-      <button type="submit">➕ Add Customer</button>
+      <button type="submit">
+        <FaPlus /> Adicionar
+      </button>
     </form>
   );
 };

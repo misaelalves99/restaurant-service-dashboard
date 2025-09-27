@@ -41,7 +41,7 @@ export const Login: React.FC = () => {
       </h1>
 
       <div className={styles.container}>
-        <h2>Login</h2>
+        <h2 className={styles.title}>Login</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="email"

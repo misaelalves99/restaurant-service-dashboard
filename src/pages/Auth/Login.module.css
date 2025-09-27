@@ -29,6 +29,10 @@
   font-size: 2.4rem;
 }
 
+.title {
+    color: white;
+}
+
 .container {
   width: 100%;
   max-width: 400px;

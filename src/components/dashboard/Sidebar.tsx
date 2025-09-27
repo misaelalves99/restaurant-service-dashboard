@@ -13,6 +13,7 @@ export const Sidebar: React.FC = () => {
                     <li>
                         <NavLink
                             to="/dashboard"
+                            end  // ← adiciona isso
                             className={({ isActive }) =>
                                 isActive ? styles.active : undefined
                             }

@@ -1,11 +1,19 @@
 // restaurant-service-dashboard/src/components/dashboard/Header.tsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 import { FaBell, FaUserCircle, FaSignOutAlt, FaUtensils, FaCashRegister, FaConciergeBell } from "react-icons/fa";
 
 export const Header: React.FC = () => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    console.log("Logout clicked"); // Substituir pela lógica real de logout
+    // Limpa os dados do usuário (ex: token)
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+
+    // Redireciona para a tela de login
+    navigate("/login");
   };
 
   return (

@@ -3,7 +3,7 @@
   width: 220px;
   background: #2c3e50;
   color: white;
-  padding: 2rem 1rem;
+  padding: 1rem; /* reduz para alinhar melhor o header */
   height: 100vh;
   position: fixed;
   top: 0;
@@ -12,18 +12,21 @@
   flex-direction: column;
   gap: 1.5rem;
   font-family: 'Poppins', sans-serif;
-  z-index: 1000; /* garante que fique acima do conteúdo */
+  z-index: 1000;
 }
 
 .sidebar h2 {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    text-align: center;
+  font-size: 1.5rem;
+  margin: 0; /* remove margin inferior */
+  padding: 0.5rem 0; /* opcional, para dar espaçamento interno */
+  text-align: left; /* alinha no início */
+  color: #ffffff; /* força branco */
 }
 
 nav ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 nav li {

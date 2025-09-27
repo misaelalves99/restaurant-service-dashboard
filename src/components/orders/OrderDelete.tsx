@@ -17,7 +17,7 @@ export const OrderDelete: React.FC<Props> = ({ orderId, onConfirm, onCancel }) =
         <p>Tem certeza que deseja excluir o pedido <strong>{orderId}</strong>?</p>
         <div className={styles.modalActions}>
           <button className={styles.cancelBtn} onClick={onCancel}>Cancelar</button>
-          <button className={styles.confirmBtn} onClick={onConfirm}>Sim, Excluir</button>
+          <button className={styles.confirmBtn} onClick={onConfirm}>Excluir</button>
         </div>
       </div>
     </div>

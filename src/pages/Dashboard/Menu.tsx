@@ -55,7 +55,7 @@ export const MenuPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>🍽️ Menu Management</h2>
+      <h2>🍽️ Gerenciamento de cardápio</h2>
 
       <MenuItemForm />
 

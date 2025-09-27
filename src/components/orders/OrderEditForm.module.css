@@ -57,20 +57,19 @@
   margin-bottom: 0.5rem;
 }
 
-/* Select com texto truncado */
+/* Inputs e Selects com fundo branco */
+.field input,
 .field select {
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
-  background-color: #fff;
+  background-color: #fff; /* fundo branco */
   color: #333;
   transition: border 0.2s, box-shadow 0.2s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
+.field input:focus,
 .field select:focus {
   border-color: #0070f3;
   box-shadow: 0 0 0 2px rgba(0,112,243,0.2);
@@ -79,10 +78,6 @@
 
 /* Input número com setinhas nativas */
 .field input[type="number"] {
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
   text-align: center;
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
@@ -115,11 +110,13 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: #fff; /* fundo branco */
 }
 
 .orderItem input[type="number"] {
   width: 70px;
   text-align: center;
+  background-color: #fff; /* fundo branco */
 }
 
 /* Botão remover item */

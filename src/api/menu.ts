@@ -31,7 +31,12 @@ export const fetchMenu = async (): Promise<MenuItem[]> => {
 export const createMenuItem = async (item: Omit<MenuItem, "id">): Promise<MenuItem> => {
   await delay(500);
   if (!item.name || item.price <= 0) throw new Error("Nome e preço válidos são obrigatórios");
-  const newItem: MenuItem = { ...item, id: Date.now().toString() };
+
+  // Gera ID sequencial
+  const maxId = menuItems.length > 0 ? Math.max(...menuItems.map(i => Number(i.id))) : 0;
+  const newId = (maxId + 1).toString();
+
+  const newItem: MenuItem = { ...item, id: newId };
   menuItems.push(newItem);
   return newItem;
 };
