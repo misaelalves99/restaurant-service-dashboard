@@ -1,37 +1,32 @@
-// src/components/customers/CustomerList.tsx
-import React, { useEffect, useState } from "react";
+// restaurant-service-dashboard/src/components/customers/CustomerTable.tsx
+import React, { useState, useEffect } from "react";
+import { Customer } from "../../types/customer";
 import { useCustomers } from "../../hooks/useCustomers";
 import { CustomerDetail } from "./CustomerDetail";
 import { CustomerForm } from "./CustomerForm";
 import { CustomerEditForm } from "./CustomerEditForm";
-import { Customer } from "../../types/customer";
-
-// React Icons
+import styles from "./CustomerTable.module.css";
 import { FiEye, FiEdit, FiTrash2, FiX } from "react-icons/fi";
 
-import styles from "./CustomerList.module.css";
-
-export const CustomerList: React.FC = () => {
+export const CustomerTable: React.FC = () => {
   const { customers, loading, loadCustomers, editCustomer, removeCustomer } = useCustomers();
 
   const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [deleteMode, setDeleteMode] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
 
   useEffect(() => {
     loadCustomers();
   }, []);
 
-  const customer = customers.find((c) => c.id === selectedCustomer) || null;
+  const customer = customers.find(c => c.id === selectedCustomer) || null;
 
-  // Salvar edição
   const handleSave = async (updatedCustomer: Customer) => {
     await editCustomer(updatedCustomer.id, updatedCustomer);
     setSelectedCustomer(null);
     setEditMode(false);
   };
 
-  // Confirmar exclusão
   const handleDelete = async () => {
     if (selectedCustomer) {
       await removeCustomer(selectedCustomer);
@@ -42,61 +37,65 @@ export const CustomerList: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>👥 Customer Management</h2>
+      <h2>👥 Gestão de Clientes</h2>
 
       {/* Formulário para adicionar cliente */}
       <CustomerForm />
 
       {loading ? (
-        <p>Loading...</p>
+        <p>Carregando...</p>
       ) : (
-        <ul className={styles.list}>
-          <li className={styles.header}>
-            <span>ID</span>
-            <span>Name</span>
-            <span>Email</span>
-            <span>Actions</span>
-          </li>
-          {customers.map((customer) => (
-            <li key={customer.id} className={styles.item}>
-              <span>{customer.id}</span> {/* ✅ ID do cliente */}
-              <span>{customer.name}</span>
-              <span>{customer.email}</span>
-              <div className={styles.actions}>
-                <button
-                  onClick={() => {
-                    setSelectedCustomer(customer.id);
-                    setEditMode(false);
-                    setDeleteMode(false);
-                  }}
-                  className={styles.detailsBtn}
-                >
-                  <FiEye />
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedCustomer(customer.id);
-                    setEditMode(true);
-                    setDeleteMode(false);
-                  }}
-                  className={styles.editBtn}
-                >
-                  <FiEdit />
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedCustomer(customer.id);
-                    setDeleteMode(true);
-                    setEditMode(false);
-                  }}
-                  className={styles.removeBtn}
-                >
-                  <FiTrash2 />
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {customers.map(customer => (
+              <tr key={customer.id}>
+                <td>{customer.id}</td>
+                <td>{customer.name}</td>
+                <td>{customer.email}</td>
+                <td className={styles.actions}>
+                  <button
+                    className={styles.detailsBtn}
+                    onClick={() => {
+                      setSelectedCustomer(customer.id);
+                      setEditMode(false);
+                      setDeleteMode(false);
+                    }}
+                  >
+                    <FiEye />
+                  </button>
+                  <button
+                    className={styles.editBtn}
+                    onClick={() => {
+                      setSelectedCustomer(customer.id);
+                      setEditMode(true);
+                      setDeleteMode(false);
+                    }}
+                  >
+                    <FiEdit />
+                  </button>
+                  <button
+                    className={styles.removeBtn}
+                    onClick={() => {
+                      setSelectedCustomer(customer.id);
+                      setDeleteMode(true);
+                      setEditMode(false);
+                    }}
+                  >
+                    <FiTrash2 />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
 
       {/* Drawer lateral para detalhes */}
@@ -124,9 +123,9 @@ export const CustomerList: React.FC = () => {
       {selectedCustomer && customer && deleteMode && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            <h3>⚠️ Confirm Deletion</h3>
+            <h3>⚠️ Confirmar Exclusão</h3>
             <p>
-              Are you sure you want to delete <strong>{customer.name}</strong>?
+              Tem certeza que deseja excluir <strong>{customer.name}</strong>?
             </p>
             <div className={styles.modalActions}>
               <button
@@ -136,10 +135,10 @@ export const CustomerList: React.FC = () => {
                   setDeleteMode(false);
                 }}
               >
-                Cancel
+                Cancelar
               </button>
               <button className={styles.confirmDeleteBtn} onClick={handleDelete}>
-                Yes, Delete
+                Sim, Excluir
               </button>
             </div>
           </div>

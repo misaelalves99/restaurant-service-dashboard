@@ -1,0 +1,143 @@
+/* restaurant-service-dashboard/src/components/menu/MenuTable.module.css */
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table thead {
+  background: #f5f5f5;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.table th {
+  font-weight: 600;
+  color: #555;
+}
+
+.table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+/* ===== Botões de ação ===== */
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.detailsBtn,
+.editBtn,
+.removeBtn {
+  border: none;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailsBtn {
+  background-color: #0070f3;
+  color: #fff;
+}
+
+.detailsBtn:hover {
+  background-color: #005bb5;
+}
+
+.editBtn {
+  background-color: #f0ad4e;
+  color: #fff;
+}
+
+.editBtn:hover {
+  background-color: #d48806;
+}
+
+.removeBtn {
+  background-color: #d9534f;
+  color: #fff;
+}
+
+.removeBtn:hover {
+  background-color: #c12e2a;
+}
+
+/* ===== Filtro ===== */
+.filter {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter label {
+  font-weight: 500;
+}
+
+.filter select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.filter select:focus {
+  border-color: #0070f3;
+  outline: none;
+}
+
+/* ===== Paginação ===== */
+.pagination {
+  margin: 1rem auto;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  width: fit-content;
+}
+
+.pagination button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.15s, color 0.2s;
+}
+
+.pagination button:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination .activePage {
+  background: #0070f3;
+  color: white;
+  border-color: #0070f3;
+}

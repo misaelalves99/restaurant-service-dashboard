@@ -1,0 +1,19 @@
+/* restaurant-service-dashboard/src/components/menu/MenuSearch.module.css */
+
+.controls {
+  margin-bottom: 1rem;
+}
+
+.controls input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.controls input:focus {
+  border-color: #0070f3;
+  outline: none;
+}

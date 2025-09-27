@@ -13,7 +13,7 @@ export const OrderSearch: React.FC<Props> = ({ search, onChange }) => {
     <div className={styles.controls}>
       <input
         type="text"
-        placeholder="Search by Order ID or Customer ID..."
+        placeholder="Buscar por ID do Pedido ou Cliente..."
         value={search}
         onChange={(e) => onChange(e.target.value)}
       />

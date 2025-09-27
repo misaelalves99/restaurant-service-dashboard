@@ -1,6 +1,6 @@
 // restaurant-service-dashboard/src/components/menu/MenuItemForm.tsx
 import React, { useState } from "react";
-import { useMenuContext } from "../../contexts/MenuProvider";
+import { useMenuContext } from "../../contexts/MenuContext";
 import { FaPlus } from "react-icons/fa";
 import styles from "./MenuItemForm.module.css";
 

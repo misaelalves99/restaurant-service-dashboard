@@ -8,7 +8,7 @@ import { FiEye, FiEdit, FiTrash2 } from "react-icons/fi";
 
 interface Props {
   orders: Order[];
-  customers?: Customer[]; // nova prop
+  customers?: Customer[];
   onView: (order: Order) => void;
   onEdit: (order: Order) => void;
   onDelete: (id: string) => void;
@@ -30,11 +30,11 @@ export const OrderTable: React.FC<Props> = ({
     <table className={styles.table}>
       <thead>
         <tr>
-          <th>Order #</th>
-          <th>Customer</th> {/* Nome do cliente */}
-          <th>Total ($)</th>
+          <th>Pedido #</th>
+          <th>Cliente</th> {/* Nome do cliente */}
+          <th>Total (R$)</th>
           <th>Status</th>
-          <th>Actions</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
