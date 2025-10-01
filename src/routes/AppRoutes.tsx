@@ -1,4 +1,5 @@
 // restaurant-service-dashboard/src/routes/AppRoutes.tsx
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "../pages";
@@ -8,7 +9,7 @@ import { Dashboard } from "../pages/Dashboard";
 import { OrdersPage } from "../pages/Dashboard/Orders";
 import { CustomersPage } from "../pages/Dashboard/Customers";
 import { MenuPage } from "../pages/Dashboard/Menu";
-import { DashboardHome } from "../pages/Dashboard/DashboardHome"; // Página inicial do dashboard
+import { DashboardHome } from "../pages/Dashboard/DashboardHome";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AppRoutes: React.FC = () => {

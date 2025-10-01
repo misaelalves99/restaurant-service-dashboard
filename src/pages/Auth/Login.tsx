@@ -7,27 +7,52 @@ import { Toast } from "../../components/ui/Toast";
 import { FaGoogle, FaFacebookF, FaUtensils } from "react-icons/fa";
 import styles from "./Login.module.css";
 
+type ToastState = { message: string; type: "success" | "error" | "info" } | null;
+
 export const Login: React.FC = () => {
-  const { login } = useAuth();
+  const { login, loginWithGoogle, loginWithFacebook } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [toast, setToast] = useState("");
+  const [toast, setToast] = useState<ToastState>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     setLoading(true);
-
     try {
       await login(email, password);
-      setToast("✅ Login efetuado com sucesso!");
+      setToast({ message: "✅ Login efetuado com sucesso!", type: "success" });
       setTimeout(() => navigate("/dashboard"), 2000);
-    } catch (err) {
-      setError("⚠️ Falha ao efetuar login.");
+    } catch {
+      setToast({ message: "⚠️ Falha ao efetuar login.", type: "error" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    try {
+      await loginWithGoogle();
+      setToast({ message: "✅ Login com Google efetuado com sucesso!", type: "success" });
+      setTimeout(() => navigate("/dashboard"), 2000);
+    } catch {
+      setToast({ message: "⚠️ Falha ao entrar com Google.", type: "error" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFacebookLogin = async () => {
+    setLoading(true);
+    try {
+      await loginWithFacebook();
+      setToast({ message: "✅ Login com Facebook efetuado com sucesso!", type: "success" });
+      setTimeout(() => navigate("/dashboard"), 2000);
+    } catch {
+      setToast({ message: "⚠️ Falha ao entrar com Facebook.", type: "error" });
     } finally {
       setLoading(false);
     }
@@ -35,7 +60,6 @@ export const Login: React.FC = () => {
 
   return (
     <div className={styles.page}>
-      {/* Logo / Marca */}
       <h1 className={styles.logo}>
         <FaUtensils className={styles.icon} /> Restaurant Service
       </h1>
@@ -58,7 +82,6 @@ export const Login: React.FC = () => {
             required
           />
 
-          {/* Link para recuperação */}
           <div className={styles.forgotPassword}>
             <Link to="/auth/forgot-password">Esqueceu a senha?</Link>
           </div>
@@ -66,7 +89,6 @@ export const Login: React.FC = () => {
           <button type="submit" disabled={loading}>
             {loading ? "Entrando..." : "Entrar"}
           </button>
-          {error && <p className={styles.error}>{error}</p>}
         </form>
 
         <div className={styles.links}>
@@ -78,16 +100,30 @@ export const Login: React.FC = () => {
         <div className={styles.divider}>ou entre com</div>
 
         <div className={styles.socialButtons}>
-          <button className={`${styles.iconButton} ${styles.google}`}>
+          <button
+            className={`${styles.iconButton} ${styles.google}`}
+            onClick={handleGoogleLogin}
+            disabled={loading}
+          >
             <FaGoogle />
           </button>
-          <button className={`${styles.iconButton} ${styles.facebook}`}>
+          <button
+            className={`${styles.iconButton} ${styles.facebook}`}
+            onClick={handleFacebookLogin}
+            disabled={loading}
+          >
             <FaFacebookF />
           </button>
         </div>
       </div>
 
-      {toast && <Toast message={toast} onClose={() => setToast("")} />}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };

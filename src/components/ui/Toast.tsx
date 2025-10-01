@@ -1,25 +1,42 @@
 // restaurant-service-dashboard/src/components/ui/Toast.tsx
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Toast.module.css";
 
-interface Props {
+type ToastType = "success" | "error" | "info";
+
+interface ToastProps {
   message: string;
-  type?: "success" | "error";
+  type?: ToastType; // tipo da mensagem
+  duration?: number; // tempo em ms para fechar automaticamente
   onClose: () => void;
-  duration?: number;
 }
 
-export const Toast: React.FC<Props> = ({ message, type = "success", onClose, duration = 3000 }) => {
+export const Toast: React.FC<ToastProps> = ({
+  message,
+  type = "info",
+  duration = 3000,
+  onClose,
+}) => {
+  const [visible, setVisible] = useState(true);
+
   useEffect(() => {
-    const timer = setTimeout(onClose, duration);
+    const timer = setTimeout(() => {
+      setVisible(false);
+      setTimeout(onClose, 300); // espera animação desaparecer
+    }, duration);
+
     return () => clearTimeout(timer);
-  }, [onClose, duration]);
+  }, [duration, onClose]);
 
   return (
-    <div className={`${styles.toast} ${type === "success" ? styles.success : styles.error}`}>
-      {message}
-      <button onClick={onClose}>✖</button>
+    <div
+      className={`${styles.toast} ${styles[type]} ${visible ? styles.show : styles.hide}`}
+    >
+      <p>{message}</p>
+      <button className={styles.closeButton} onClick={() => setVisible(false)}>
+        ×
+      </button>
     </div>
   );
 };

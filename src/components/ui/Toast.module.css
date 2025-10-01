@@ -1,29 +1,54 @@
 /* restaurant-service-dashboard/src/components/ui/Toast.module.css */
+
 .toast {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 12px 20px;
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  z-index: 1000;
-  animation: fadein 0.3s;
+  min-width: 250px;
+  color: #fff;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(20%);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 9999;
 }
 
-.success { background-color: #4caf50; }
-.error { background-color: #f44336; }
+/* Tipos de toast */
+.success {
+  background-color: #28a745;
+}
 
-.toast button {
-  background: transparent;
+.error {
+  background-color: #dc3545;
+}
+
+.info {
+  background-color: #007bff;
+}
+
+/* Animações */
+.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hide {
+  opacity: 0;
+  transform: translateY(20%);
+}
+
+/* Botão fechar */
+.closeButton {
+  background: none;
   border: none;
-  color: white;
-  font-size: 16px;
+  color: #fff;
+  font-size: 1.2rem;
   cursor: pointer;
+  margin-left: 1rem;
 }
-
-@keyframes fadein { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

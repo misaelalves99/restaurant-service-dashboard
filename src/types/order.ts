@@ -12,6 +12,6 @@ export type Order = {
   customerId: string;
   total: number;
   status?: OrderStatus;
-  createdAt: string; // Agora obrigatório
-  items: OrderItem[]; // Incluído
+  createdAt: string;
+  items: OrderItem[];
 };

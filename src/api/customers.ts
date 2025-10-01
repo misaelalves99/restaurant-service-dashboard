@@ -28,6 +28,14 @@ let customers: Customer[] = [
     address: "Av. Contorno, 987 - Belo Horizonte/MG",
     createdAt: "2025-03-10",
   },
+    {
+    id: "4",
+    name: "Misael Alves",
+    email: "carlos@example.com",
+    phone: "(31) 97777-3333",
+    address: "Av. Contorno, 987 - Teófilo Otoni/MG",
+    createdAt: "2025-03-10",
+  },
 ];
 
 // Simula delay de rede

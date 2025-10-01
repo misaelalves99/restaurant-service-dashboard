@@ -1,35 +1,64 @@
 // restaurant-service-dashboard/src/pages/Auth/Register.tsx
+
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate, Link } from "react-router-dom";
 import { Toast } from "../../components/ui/Toast";
-import { FaGoogle, FaFacebook, FaUtensils } from "react-icons/fa"; // ⬅ adicionado FaUtensils
+import { FaGoogle, FaFacebook, FaUtensils } from "react-icons/fa";
 import styles from "./Register.module.css";
 
+type ToastState = { message: string; type: "success" | "error" | "info" } | null;
+
 export const Register: React.FC = () => {
-  const { register } = useAuth();
+  const { register, loginWithGoogle, loginWithFacebook } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [toast, setToast] = useState("");
+  const [toast, setToast] = useState<ToastState>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    if (!name || !email || !password)
-      return setError("⚠️ Todos os campos são obrigatórios");
+    if (!name || !email || !password) {
+      setToast({ message: "⚠️ Todos os campos são obrigatórios", type: "error" });
+      return;
+    }
 
     setLoading(true);
     try {
       await register(name, email, password);
-      setToast("✅ Cadastro criado com sucesso!");
+      setToast({ message: "✅ Cadastro criado com sucesso!", type: "success" });
       setTimeout(() => navigate("/dashboard"), 2000);
-    } catch (err) {
-      setError("⚠️ Falha ao criar cadastro.");
+    } catch {
+      setToast({ message: "⚠️ Falha ao criar cadastro.", type: "error" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleRegister = async () => {
+    setLoading(true);
+    try {
+      await loginWithGoogle();
+      setToast({ message: "✅ Cadastro com Google efetuado com sucesso!", type: "success" });
+      setTimeout(() => navigate("/dashboard"), 2000);
+    } catch {
+      setToast({ message: "⚠️ Falha ao cadastrar com Google.", type: "error" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFacebookRegister = async () => {
+    setLoading(true);
+    try {
+      await loginWithFacebook();
+      setToast({ message: "✅ Cadastro com Facebook efetuado com sucesso!", type: "success" });
+      setTimeout(() => navigate("/dashboard"), 2000);
+    } catch {
+      setToast({ message: "⚠️ Falha ao cadastrar com Facebook.", type: "error" });
     } finally {
       setLoading(false);
     }
@@ -37,7 +66,6 @@ export const Register: React.FC = () => {
 
   return (
     <div className={styles.page}>
-      {/* Logo / Marca padronizada igual ao Login */}
       <h1 className={styles.logo}>
         <FaUtensils className={styles.icon} /> Restaurant Service
       </h1>
@@ -70,8 +98,6 @@ export const Register: React.FC = () => {
           <button type="submit" disabled={loading}>
             {loading ? "Cadastrando..." : "Cadastrar"}
           </button>
-
-          {error && <p className={styles.error}>{error}</p>}
         </form>
 
         <div className={styles.links}>
@@ -81,17 +107,32 @@ export const Register: React.FC = () => {
         </div>
 
         <div className={styles.divider}>Ou cadastre-se com</div>
+
         <div className={styles.socialButtons}>
-          <button className={`${styles.iconButton} ${styles.google}`}>
+          <button
+            className={`${styles.iconButton} ${styles.google}`}
+            onClick={handleGoogleRegister}
+            disabled={loading}
+          >
             <FaGoogle />
           </button>
-          <button className={`${styles.iconButton} ${styles.facebook}`}>
+          <button
+            className={`${styles.iconButton} ${styles.facebook}`}
+            onClick={handleFacebookRegister}
+            disabled={loading}
+          >
             <FaFacebook />
           </button>
         </div>
       </div>
 
-      {toast && <Toast message={toast} onClose={() => setToast("")} />}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
