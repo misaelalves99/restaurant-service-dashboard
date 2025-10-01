@@ -74,6 +74,30 @@ input:focus {
   box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.2);
 }
 
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordWrapper input {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #ccc;
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+.passwordToggle:hover {
+  color: #ff914d;
+}
+
 .forgotPassword {
   display: flex;
   justify-content: flex-end;

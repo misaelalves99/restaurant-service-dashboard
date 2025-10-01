@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate, Link } from "react-router-dom";
 import { Toast } from "../../components/ui/Toast";
-import { FaGoogle, FaFacebook, FaUtensils } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaUtensils, FaEye, FaEyeSlash } from "react-icons/fa";
 import styles from "./Register.module.css";
 
 type ToastState = { message: string; type: "success" | "error" | "info" } | null;
@@ -16,9 +16,11 @@ export const Register: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // controle mostrar/ocultar senha
   const [toast, setToast] = useState<ToastState>(null);
   const [loading, setLoading] = useState(false);
 
+  // Função para cadastro com e-mail
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !password) {
@@ -38,6 +40,7 @@ export const Register: React.FC = () => {
     }
   };
 
+  // Cadastro social
   const handleGoogleRegister = async () => {
     setLoading(true);
     try {
@@ -64,6 +67,8 @@ export const Register: React.FC = () => {
     }
   };
 
+  const togglePassword = () => setShowPassword(prev => !prev);
+
   return (
     <div className={styles.page}>
       <h1 className={styles.logo}>
@@ -87,13 +92,19 @@ export const Register: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
-            placeholder="Crie uma senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+
+          <div className={styles.passwordWrapper}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Crie uma senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <span className={styles.passwordToggle} onClick={togglePassword}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
           <button type="submit" disabled={loading}>
             {loading ? "Cadastrando..." : "Cadastrar"}
